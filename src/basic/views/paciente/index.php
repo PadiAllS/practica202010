@@ -32,7 +32,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             <li><a href="#enfermedad" data-toggle= "tab">Enfermedades preexistentes</a></li>
             <li><a href="#tratamiento" data-toggle= "tab">Tratamientos</a></li>
         </ul>
-
+    <!-- pestaña datos paciente --> 
         <div class="tab-content">
             <div class="tab-pane fade" id="datos">
                 <form action="">
@@ -49,16 +49,31 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <span class="text-danger" v-if="errors.apellido">{{ errors.apellido }}</span>
                 </div>
                 <div class="form-group">
-                    <label for="especialidad">Obra Social</label>
+                    <label for="obrasocial">Obra Social</label>
                     <select class="form-control" v-model="paciente.obrasocial_id">
-                        <option v-for="obras in obrassocial" :value="obras.id">
+                        <option v-for="obras in obrasocial" :value="obras.id">
                             {{obras.nombre}}
                         </option>
                     </select>
                 </div>
             </form>
             </div>
-            <div class="tab-pane fade" id="enfermedad"></div>
+            
+            <!-- pestaña enfermedades paciente -->
+            <div class="tab-pane fade" id="enfermedad">
+            <b-container>
+                    <b-row class="justify-content-center">
+                        <div>
+                            <label for="patologias">Patologias</label>
+                            <ul v-for="pat in patologias">
+                                <li><input type="radio" v-model="pacientes.patologia">{{pat.nombre}} </li>
+                            </ul>                            
+                        </div>
+                    </b-row>
+                </b-container>
+            </div>
+
+            <!-- pestaña tratamientos paciente -->
             <div class="tab-pane fade" id="tratamiento">
             <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
                     <b-thead head-variant="dark">
@@ -90,7 +105,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                     <b-container>
                                         <b-row class="justify-content-md-center">
                                             <b-row class="justify-content-md-center">
-                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Medico</button>
+                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
                                             </b-row>
                                         </b-row>
                                     </b-container>
@@ -119,9 +134,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
         
         <template v-slot:modal-footer="{ok, cancel, hide}">
-            <button v-if="isNewRecord" @click="addPaciente()" type="button" class="btn btn-primary m-3">Crear</button>
+            <button v-if="isNewRecord" @click="addPacientes()" type="button" class="btn btn-primary m-3">Crear</button>
             <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <button v-if="!isNewRecord" @click="updatePaciente(paciente.id_paciente)" type="button" class="btn btn-primary m-3">Actualizar</button>
+            <button v-if="!isNewRecord" @click="updatePacientes(paciente.id_paciente)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>
     </b-modal>
@@ -159,7 +174,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                     <b-container>
                                         <b-row class="justify-content-md-center">
                                             <b-row class="justify-content-md-center">
-                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Medico</button>
+                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
                                             </b-row>
                                         </b-row>
                                     </b-container>
@@ -175,8 +190,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-td>{{pacie.apellido}}</b-td>
                                 <b-td>{{pacie.obrasocial.nombre}}</b-td>
                                 <b-td>
-                                    <button @click="showModal=true" v-on:click="editPaciente(key)" type="button" class="btn btn-success">Editar</button>
-                                    <button v-on:click="deletePaciente(pacie.id_paciente)" type="button" class="btn btn-danger">Borrar</button>
+                                    <button @click="showModal=true" v-on:click="editPacientes(key)" type="button" class="btn btn-success">Editar</button>
+                                    <button v-on:click="deletePacientes(pacie.id_paciente)" type="button" class="btn btn-danger">Borrar</button>
                                 </b-td>
                             </b-tr>
                         </b-tbody>
@@ -201,6 +216,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 obrasocial: [],
                 pacientes: [],
                 paciente: {},
+                patologias: [],
+                patologia: {},
                 filter: {},
                 errors: {},
                 isNewRecord: true,
@@ -222,6 +239,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         mounted() {
             this.getPacientes();
             this.getObrasociales();
+            this.getPatologias();
         },
         watch: {
             currentPage: function() {
@@ -250,7 +268,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
                         self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
                         self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
-                        self.obrasociales = response.data;
+                        self.obrasocial = response.data;
                     })
                     .catch(function(error) {
                         // handle error
@@ -261,6 +279,29 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // always executed
                     });
             },
+
+            getPatologias() {
+                var self = this;
+                axios.get('/apiv1/patologia')
+                    .then(function(response) {
+
+                        console.log(response.data);
+                        console.log("Se trajo las patologias");
+                        self.patologias = response.data;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+                    .then(function() {});
+            },
+            normalizeErrors: function(errors) {
+                var allErrors = {};
+                for (var i = 0; i < errors.length; i++) {
+                    allErrors[errors[i].field] = errors[i].message;
+                }
+                return allErrors;
+            },
+
 
             getPacientes: function() {
                 var self = this;
@@ -333,6 +374,13 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // self.posts.unshift(response.data);
                         self.paciente = {};
                         self.showModal = false;
+
+                        Swal.fire({
+                            title: 'Se creo el registro correctamente',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                        })
                     })
                     .catch(function(error) {
                         // handle error
@@ -343,14 +391,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                Swal.fire({
-                    title: 'Se creo el registro correctamente',
-                    icon: 'success',
-                    showConfirmButton: true,
-                    confirmButtonText: 'Aceptar',
-                })
+                
             },
-            updatePaciente: function(key) {
+            updatePacientes: function(key) {
                 var self = this;
                 const params = new URLSearchParams();
                 params.append('nombre', self.paciente.nombre);

@@ -13,7 +13,7 @@ class Paciente extends \app\models\Paciente
     
     public function fields()
     {
-        return ['id_Paciente', 'nombre', 'apellido','obrasocial','patologias'];
+        return ['id_paciente', 'nombre', 'apellido','obrasocial','patologias'];
     }
 
     public function getObrasocial()
