@@ -55,7 +55,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     </div>
                     <div class="form-group">
                         <label for="obrasocial">Obra Social</label>
-                        <select class="form-control" v-model="paciente.obrasocial_id">
+                        <select v-if="paciente.obrasocial" class="form-control" v-model="paciente.obrasocial.id">
                             <option v-for="obras in obrasocial" :value="obras.id">
                                 {{obras.nombre}}
                             </option>
@@ -71,11 +71,14 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             <div>
                                 <legend>Patologias</legend>
                                 <ul>
-                                    <li v-for="pat in patologias">
+                                    <li v-for="(pat,i) in patologias">
                                         <label :for= "pat.nombre">{{pat.nombre}}</label>
-                                        <input type="checkbox" :id="pat.nombre" v-model="pacientes.patologia">
+                                        <input v-if="paciente" type="checkbox" :id="pat.nombre"  v-model="patologias[i].estado"  >
                                     </li>
-                                </ul>                            
+                                </ul> 
+                                <div v-for="pato in paciente.patologias">
+                                    <span>{{pato.nombre}}</span>
+                                </div>                           
                             </div>
                         </b-row>
                     </b-container>
@@ -224,6 +227,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 obrasocial: [],
                 pacientes: [],
                 paciente: {},
+                patologiasElegidas:[],
                 patologias: [],
                 patologia: {},
                 filter: {},
@@ -401,13 +405,26 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     });
                 
             },
+            getPatElegidas(){
+                var selected = [];
+                for (var i in this.patologias){
+                    if(this.patologias[i].estado){
+                        selected.push(this.patologias[i]);
+                    }
+                }
+                return selected;
+            },
             updatePacientes: function(key) {
                 var self = this;
+                var patElegidas = self.getPatElegidas();
                 const params = new URLSearchParams();
                 params.append('nombre', self.paciente.nombre);
                 params.append('apellido', self.paciente.apellido);
                 params.append('id', self.paciente.obrasocial_id);
-                axios.patch('/apiv1/paciente/' + key, params)
+
+                params.append("patElegidas",patElegidas);
+                self.paciente.patElegidas = self.getPatElegidas();
+                axios.patch('/apiv1/paciente/' + key, self.paciente)
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
