@@ -24,7 +24,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-    
+
     <b-modal v-model="showModal" title="Patologias" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
         <form action="">
             <div class="form-group">
@@ -60,7 +60,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-th>Nombre</b-th>
                                 <b-th>Detalle</b-th>
                                 <b-th>Opciones</b-th>
-                            </b-tr><div id="app">
+                            </b-tr>
+                            <div id="app">
                         </template>
                         <template>
                             <b-tr>
@@ -92,8 +93,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-td>{{patol.nombre}}</b-td>
                                 <b-td>{{patol.detalle}}</b-td>
                                 <b-td>
-                                    <button @click="showModal=true" v-on:click="editPatologia(key)" type="button" class="btn btn-success">Editar</button>
-                                    <button v-on:click="deletePatologia(patol.id)" type="button" class="btn btn-danger">Borrar</button>
+                                    <button @click="showModal=true" v-on:click="editPatologia(key)" type="button" class="btn btn-warning">Editar</button>
+                                    <button v-on:click="deletePatologia(patol.id_patologia)" type="button" class="btn btn-danger">Borrar</button>
                                 </b-td>
                             </b-tr>
                         </b-tbody>
@@ -194,7 +195,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 self.getPatologia();
                             })
 
-                            Swal.fire({
+                        Swal.fire({
                                 title: 'Se ha borrado con exito',
                                 icon: 'success',
                             })
@@ -242,7 +243,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                
+
             },
             updatePatologia: function(key) {
                 var self = this;

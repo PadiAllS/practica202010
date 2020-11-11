@@ -56,6 +56,7 @@ use app\assets\AppAsset;
                     "items" => [
                         ['label' => 'Paciente', 'url' => ['/paciente']],
                         ['label' => 'ObraSocial', 'url' => ['/obrasocial']],
+                        ['label' => 'Patologia', 'url' => ['/patologia']],
                     ],
                     "options" => ["class" => "navbar-nav"],
                 ],
