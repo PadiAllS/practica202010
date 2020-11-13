@@ -45,4 +45,8 @@ class MedicoController extends ActiveController
         $dataProvider =  $searchModel->search(Yii::$app->request->queryParams);
         return $dataProvider;
     }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> cc9bbe6fee51c4d4a8f405083d584071763be1a8
 }

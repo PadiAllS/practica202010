@@ -48,7 +48,11 @@ class PacienteSearch extends \app\modules\Apiv1\models\Paciente
             'query' => $query,
         ]);
 
+<<<<<<< HEAD
         $this->load($params, '');
+=======
+        $this->load($params,'');
+>>>>>>> cc9bbe6fee51c4d4a8f405083d584071763be1a8
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
