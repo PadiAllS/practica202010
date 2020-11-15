@@ -59,7 +59,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             </div>
                             <div class="form-group">
                                 <label for="obrasocial">Selecciona la Obra-Social</label>
-                                <select class="form-control" v-model="paciente.obra_social_id">
+                                <select class="form-control" v-model="paciente.obrasocial_id">
                                     <option :value="pac.id" v-for="pac in obrasocial">
                                         {{pac.nombre}}
                                     </option>
