@@ -60,6 +60,7 @@ use app\assets\AppAsset;
                     ],
                     "options" => ["class" => "navbar-nav"],
                 ],
+                ['label' => 'Turnos', 'url' => ['/turno']],
                 ['label' => 'Registro', 'url' => ['/site/registro']],
 
                 Yii::$app->user->isGuest ? (['label' => 'Login', 'url' => ['/site/login']]) : ('<li>'

@@ -276,6 +276,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // self.posts.unshift(response.data);
                         //self.medicohorario = {};
                         self.getMedico();
+                        self.mykey += 1;
                         self.showModal1 = false;
                     
                     })

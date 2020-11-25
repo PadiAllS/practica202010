@@ -27,14 +27,18 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 <ul class="nav nav-tabs">
                     <div class="form-group">
                         <div class="row ml-5">
-                            <b-button-group size="md">
+                            <div>
+                            <!-- <b-button-group size="md"> -->
+                            <b-tabs content-class="mt-3" fill>
 
-                                <b-button variant="warning" href="#datos" data-toggle="tab">Datos Paciente</b-button>
+                                <b-tab active variant="warning" href="#datos" data-toggle="tab">Datos Paciente</b-tab>
 
-                                <b-button variant="dark" href="#enfermedad" data-toggle="tab">Enfermedades preexistentes</b-button>
+                                <b-tab  variant="dark" href="#enfermedad" data-toggle="tab">Enfermedades preexistentes</b-tab>
+                            </b-tabs>
+                            </div>
 
                                 <!-- <b-button variant="warning" href="#tratamiento" data-toggle="tab">Tratamientos</b-button> -->
-                            </b-button-group>
+                            <!-- </b-button-group> -->
                         </div>
                     </div>
                 </ul>

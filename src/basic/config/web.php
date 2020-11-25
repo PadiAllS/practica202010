@@ -61,7 +61,8 @@ $config = [
                     'apiv1/patologia',
                     'apiv1/obrasocial',
                     'apiv1/paciente',
-                    'apiv1/pacientepatologia'
+                    'apiv1/pacientepatologia',
+                    'apiv1/turno'
                 ],
             ],
 
