@@ -33,33 +33,24 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-th>Nombre</b-th>
                                 <b-th>Apellido</b-th>
                                 <b-th>Especialidad</b-th>
-                                <b-th>Dia de atencion</b-th>
                                 <b-th>Opciones</b-th>
                             </b-tr><div id="app">
                         </template>
                         <template>
                             <b-tr>
                                 <b-td>
-                                    <input v-on:change="getMedicos()" class="form-control" v-model="filterxMedico.nombre">
+                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.nombre">
                                 </b-td>
                                 <b-td>
-                                    <input v-on:change="getMedicos()" class="form-control" v-model="filterxMedico.apellido">
+                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.apellido">
                                 </b-td>
                                 <b-td>
-                                    <input v-on:change="getMedicos()" class="form-control" v-model="filterxMedico.especialidad">
-                                </b-td>
-                                <b-td>
-                                    <input v-on:change="getMedicos()" class="form-control" v-model="filterxMedico.horarioatencions">
+                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.especialidad">
                                 </b-td>
                                 
+                                
                                 <b-td>
-                                    <!-- <b-container>
-                                        <b-row class="justify-content-md-center">
-                                            <b-row class="justify-content-md-center">
-                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Medico</button>
-                                            </b-row>
-                                        </b-row>
-                                    </b-container> -->
+                                    
                                 </b-td>
                             </b-tr>
                         </template>
@@ -72,7 +63,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-td>{{medic.especialidad.nombre}}</b-td>
                                 <b-td>{{medic.horarioatencions.dia}}</b-td>
                                 <b-td>
-                                    <button @click="showModal=true" v-on:click="turno.medico_id" type="button" class="btn btn-success">Selecionar</button>
+                                    <button @click="editMedico(key)"  type="button" class="btn btn-success">Selecionar</button>
                                     
                                 </b-td>
                             </b-tr>
@@ -85,17 +76,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </div>
   
     
-    <div class="form-group">
-        <label for="medico">Elija un medico</label>
-        <select class="form-control" v-model=medico.id_medico @change="getMedico"  >
-            <option v-for="medic in medicos" :value="medic.id_medico">
-                {{medic.apellido}}
-            </option>
-        </select>
-    </div>
+    
        
     <div class="form-group" v-if="medico.especialidad">
-        <h4>Especialidad: {{ medico.especialidad.nombre }}</h4>
+        <h4>Dr.: {{ medico.nombre }} Especialidad: {{ medico.especialidad.nombre }}</h4>
     </div>
 
     <p>
@@ -107,11 +91,15 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         <form action="">
             <div class="form-group">
                 <label for="paciente">Elija un paciente</label>
-                <select class="form-control" v-model=paciente.id_paciente @change="getPaciente"  >
+                <input v-on:keyup="getPaciente()" class="form-control" v-model="filterxPaciente.apellido">
+                <div class="form-group" v-if="paciente.obrasocial">
+                    <!-- <span>{{ paciente.nombre }} {{ paciente.apellido }} - Obra Social: {{ paciente.obrasocial.nombre }}</span> -->
+                </div>  
+                <!-- <select class="form-control" v-model=paciente.id_paciente @change="getPaciente"  >
                     <option v-for="paci in pacientes" :value="paci.id_paciente">
                         {{paci.apellido}}
                     </option>
-                </select>
+                </select> -->
             </div>
             <div class="form-group">
                 <label for="nroOrden">Nro. de Orden</label>
@@ -169,6 +157,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-td>{{hora.deste}}</b-td>
                                 <b-td>{{hora.hasta}}</b-td>
                                 <b-td>
+                                    <button @click="showModal=true" type='button' class="btn btn-primary">Agregar Turno</button>
                                     <!-- <button @click="showModal=true" v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button> -->
                                     <!-- <button v-on:click="deleteHorarioatencion(hora.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button> -->
                                 </b-td>
@@ -202,6 +191,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 turnos: [], //todos los turnos
                 //horarioxMedico: {}, //lista los datos de un medico (especialidad y horariosatencion)
                 filterxMedico: {}, //filtra los medicos
+                filterxPaciente: {},
                 filter: {}, // filtra los horariosatencion
                 errors: {},
                 isNewRecord: true,
@@ -267,7 +257,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // always executed
                     });
             },
-            getMedico: function() {
+            getMedico: function(key) {
                 var self = this;
                 axios.get('/apiv1/medico/'+self.medico.id_medico, )
                     .then(function(response) {
@@ -285,6 +275,12 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
+            },
+
+            editMedico: function(key) {
+                this.medico = Object.assign({}, this.medicos[key]);
+                this.medico.key = key;
+                this.isNewRecord = false;
             },
             // operaciones con tabla pacientes
             getPacientes: function() {
