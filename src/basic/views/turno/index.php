@@ -25,7 +25,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </b-row>
     </div>
 
-    <div>
+    <div v-if="paciente != null">
                 <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
                     <b-thead head-variant="dark">
                         <template>
@@ -79,15 +79,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
     
        
     <div class="form-group" v-if="medico.especialidad">
-        <h4>Dr.: {{ medico.nombre }} Especialidad: {{ medico.especialidad.nombre }}</h4>
+        <h4>Dr. {{ medico.nombre }} {{ medico.apellido }}  -  Especialidad: {{ medico.especialidad.nombre }}</h4>
     </div>
 
-    <p>
-        <b-button @click="showModal=true" type='button' block variant="primary">Nuevo Horario</button>
-    </p>
-
     <!-- Inicio Modal -->
-    <b-modal v-model="showModal" title="Horario de Atencion" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
+    <b-modal v-model="showModal" title="Turnos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
         <form action="">
             <div class="form-group">
                 <label for="paciente">Elija un paciente</label>
