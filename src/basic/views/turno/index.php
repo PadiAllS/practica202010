@@ -25,77 +25,102 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </b-row>
     </div>
 
-    <div v-if="paciente != null">
-                <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-                    <b-thead head-variant="dark">
-                        <template>
-                            <b-tr>
-                                <b-th>Nombre</b-th>
-                                <b-th>Apellido</b-th>
-                                <b-th>Especialidad</b-th>
-                                <b-th>Opciones</b-th>
-                            </b-tr><div id="app">
-                        </template>
-                        <template>
-                            <b-tr>
-                                <b-td>
-                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.nombre">
-                                </b-td>
-                                <b-td>
-                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.apellido">
-                                </b-td>
-                                <b-td>
-                                    <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.especialidad">
-                                </b-td>
-                                
-                                
-                                <b-td>
-                                    
-                                </b-td>
-                            </b-tr>
-                        </template>
-                    </b-thead>
-                    <template>
-                        <b-tbody table-variant="warning">
-                            <b-tr v-for="(medic,key) in medicos" v-bind:key="medic.id_medico">
-                                <b-td scope="row">{{medic.nombre}}</b-td>
-                                <b-td>{{medic.apellido}}</b-td>
-                                <b-td>{{medic.especialidad.nombre}}</b-td>
-                                <b-td>{{medic.horarioatencions.dia}}</b-td>
-                                <b-td>
-                                    <button @click="editMedico(key)"  type="button" class="btn btn-success">Selecionar</button>
-                                    
-                                </b-td>
-                            </b-tr>
-                        </b-tbody>
-                    </template>
-                    </b-table>
-                    <b-container class="m-3">
-                        <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-                    </b-container>
+            <div id="form-group">
+                <label for="medico">Elija un Medico</label>
+                <input type="text" v-model="filterxMedico.apellido" list="listMedico" @:keyup="editMedico(key)" class="form-control">
+                <datalist id="listMedico">
+                    <option v-for="medi in medicos">Dr: {{ medi.apellido}} {{medi.nombre}} </option>
+                </datalist>
             </div>
-  
-    
-    
-       
+
+
+    <!-- <div v-if="paciente != null">
+        <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
+            <b-thead head-variant="dark">
+                <template>
+                    <b-tr>
+                        <b-th>Nombre</b-th>
+                        <b-th>Apellido</b-th>
+                        <b-th>Especialidad</b-th>
+                        <b-th>Opciones</b-th>
+                    </b-tr>
+                    <div id="app">
+                </template>
+                <template>
+                    <b-tr>
+                        <b-td>
+                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.nombre">
+                        </b-td>
+                        <b-td>
+                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.apellido">
+                        </b-td>
+                        <b-td>
+                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.especialidad">
+                        </b-td>
+
+
+                        <b-td>
+
+                        </b-td>
+                    </b-tr>
+                </template>
+            </b-thead>
+            <template>
+                <b-tbody table-variant="warning">
+                    <b-tr v-for="(medic,key) in medicos" v-bind:key="medic.id_medico">
+                        <b-td scope="row">{{medic.nombre}}</b-td>
+                        <b-td>{{medic.apellido}}</b-td>
+                        <b-td>{{medic.especialidad.nombre}}</b-td>
+                        <b-td>{{medic.horarioatencions.dia}}</b-td>
+                        <b-td>
+                            <button @click="editMedico(key)" type="button" class="btn btn-success">Selecionar</button>
+
+                        </b-td>
+                    </b-tr>
+                </b-tbody>
+            </template>
+            </b-table>
+            <b-container class="m-3">
+                <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
+            </b-container>
+    </div> -->
+
+
+
+
     <div class="form-group" v-if="medico.especialidad">
-        <h4>Dr. {{ medico.nombre }} {{ medico.apellido }}  -  Especialidad: {{ medico.especialidad.nombre }}</h4>
+        <h4>Dr. {{ medico.nombre }} {{ medico.apellido }} - Especialidad: {{ medico.especialidad.nombre }}</h4>
     </div>
 
     <!-- Inicio Modal -->
     <b-modal v-model="showModal" title="Turnos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
         <form action="">
-            <div class="form-group">
+            <div id="form-group">
                 <label for="paciente">Elija un paciente</label>
-                <input v-on:keyup="getPaciente()" class="form-control" v-model="filterxPaciente.apellido">
-                <div class="form-group" v-if="paciente.obrasocial">
-                    <!-- <span>{{ paciente.nombre }} {{ paciente.apellido }} - Obra Social: {{ paciente.obrasocial.nombre }}</span> -->
-                </div>  
-                <!-- <select class="form-control" v-model=paciente.id_paciente @change="getPaciente"  >
-                    <option v-for="paci in pacientes" :value="paci.id_paciente">
-                        {{paci.apellido}}
+                <input type="text" v-model="filterxPaciente.apellido" list="listPacientes" v-on:keyup="getPaciente()" class="form-control">
+                <datalist id="listPacientes">
+                    <option v-for="paci in pacientes">{{ paci.apellido}} {{paci.nombre}} </option>
+                </datalist>
+            </div>
+
+
+
+
+
+
+
+            <div class="form-group">
+                <!-- <label for="paciente">Elija un paciente</label>
+                <input type="search" name="paciente" list="listaPacientes" v-on:keyup="getPaciente()" class="form-control" v-model="filterxPaciente.apellido">
+                
+                <datalist id="listaPacientes"  class="form-control" v-model=paciente.id_paciente @change="getPaciente"  >
+                    <option v-for="paci in pacientes">
+                        {{paci.apellido}} {{paci.nombre}}
                     </option>
-                </select> -->
+                </datalist> -->
+                <!-- <div class="form-group" v-if="paciente.obrasocial"> -->
+                <!-- <span>{{ paciente.nombre }} {{ paciente.apellido }} - Obra Social: {{ paciente.obrasocial.nombre }}</span> -->
+                <!-- </div>   -->
             </div>
             <div class="form-group">
                 <label for="nroOrden">Nro. de Orden</label>
@@ -139,10 +164,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-th>Desde</b-th>
                                 <b-th>Hasta</b-th>
                                 <b-th>Opciones</b-th>
-                            </b-tr><div id="app">
+                            </b-tr>
+                            <div id="app">
                         </template>
                         <template>
-                            
+
                         </template>
                     </b-thead>
                     <template>
@@ -182,7 +208,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 pacientes: [], //tabla de todos los pacientes
                 paciente: {}, //el paciente seleccionado
                 medicos: [], //todos los medicos
-                medico:{} , //el medico seleccionado
+                medico: {}, //el medico seleccionado
                 turno: {}, //nuevo turno
                 turnos: [], //todos los turnos
                 //horarioxMedico: {}, //lista los datos de un medico (especialidad y horariosatencion)
@@ -205,6 +231,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 headVariant: 'dark',
                 borderer: true,
                 tableVariant: 'primary',
+                options: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange']
             }
         },
         mounted() {
@@ -216,11 +243,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             currentPage: function() {
                 this.getHorariosatencion();
             }
-            
+
         },
 
         computed: {
-            
+
         },
         methods: {
             normalizeErrors: function(errors) {
@@ -230,7 +257,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 }
                 return allErrors;
             },
-     
+
             //operaciones tabla medicos
 
             getMedicos: function() {
@@ -255,7 +282,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             },
             getMedico: function(key) {
                 var self = this;
-                axios.get('/apiv1/medico/'+self.medico.id_medico, )
+                axios.get('/apiv1/medico/' + self.medico.id_medico, )
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -301,7 +328,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             },
             getPaciente: function() {
                 var self = this;
-                axios.get('/apiv1/paciente/'+self.paciente.id_paciente, )
+                axios.get('/apiv1/paciente/' + self.paciente.id_paciente, )
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -318,7 +345,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // always executed
                     });
             },
-            
+
             //operaciones tabla Turno
 
             getTurnos: function() {
@@ -378,7 +405,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 }, );
             },
 
-            
+
             editTurno: function(key) {
                 this.turno = Object.assign({}, this.turno[key]);
                 this.turno.key = key;
