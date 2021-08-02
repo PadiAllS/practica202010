@@ -46,9 +46,10 @@ class HorarioatencionSearch extends Horarioatencion
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 4]
         ]);
 
-        $this->load($params);
+        $this->load($params,'');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

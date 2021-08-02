@@ -33,6 +33,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
             'apellido',
             'especialidad_id',
+            'direccion',
+            'localidad',
+            'codigo_postal',
+            'telefono',
+            'celular',
+            'mail',
+            'fecha_nacimiento',
+            'sexo',
+            'tipo_documento',
+            'nro_documento',
+            'matricula',
+            'duracion_consulta',
         ],
     ]) ?>
 

@@ -20,6 +20,9 @@ class m201004_130026_create_medico_table extends Migration
             'nombre' => $this->string(50),
             'apellido' => $this->string(50),
             'especialidad_id' => $this->integer()->notNull(),
+            
+
+
         ]);
 
         // creates index for column `especialidad_id`

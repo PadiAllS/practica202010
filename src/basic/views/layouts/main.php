@@ -41,7 +41,10 @@ use app\assets\AppAsset;
         echo Nav::widget([
             'options' => ['class' => 'nav-pills navbar-nav ml-auto'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
+                Yii::$app->user->isGuest ? (""): (
+                ['label' => 'Inicio', 'url' => ['/site/index']]
+                ),
+                Yii::$app->user->isGuest ? (""): (
                 [
                     "label" => "Administracion",
                     "items" => [
@@ -50,7 +53,8 @@ use app\assets\AppAsset;
                         ['label' => 'Horarios', 'url' => ['/horarioatencion']],
                     ],
                     "options" => ["class" => "navbar-nav"],
-                ],
+                ]),
+                Yii::$app->user->isGuest ? (""): (
                 [
                     "label" => "Pacientes",
                     "items" => [
@@ -59,9 +63,13 @@ use app\assets\AppAsset;
                         ['label' => 'Patologia', 'url' => ['/patologia']],
                     ],
                     "options" => ["class" => "navbar-nav"],
-                ],
-                ['label' => 'Turnos', 'url' => ['/turno']],
-                ['label' => 'Registro', 'url' => ['/site/registro']],
+                ]),
+                Yii::$app->user->isGuest ? (""): (
+                ['label' => 'Turnos', 'url' => ['/turno']
+                ]),
+                Yii::$app->user->isGuest ? (""): (
+                ['label' => 'Registro', 'url' => ['/usuario/create']
+                ]),
 
                 Yii::$app->user->isGuest ? (['label' => 'Login', 'url' => ['/site/login']]) : ('<li>'
                     . Html::beginForm(['/site/logout'], 'post')
@@ -87,7 +95,7 @@ use app\assets\AppAsset;
 
     <footer class="footer">
         <div class="container text-center">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+            <p class="pull-left">&copy; Unique Health System <?= date('Y') ?></p>
 
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>

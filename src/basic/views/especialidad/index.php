@@ -24,9 +24,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-    <!-- </b-container> -->
-
-    <!-- Button trigger modal -->
+    
+    <!-- Comienza el modal -->
     <b-modal v-model="showModal" title="Especialidades" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
         <form action="">
             <div class="form-group">
@@ -45,7 +44,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </form>
         <template v-slot:modal-footer="{ok, cancel, hide}">
             <button v-if="isNewRecord" @click="addEspecialidad()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
+            
             <button v-if="!isNewRecord" @click="updateEspecialidad(especialidad.id_especialidad)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>
@@ -141,7 +140,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         },
         watch: {
             currentPage: function() {
-                this.getPatologias();
+                this.getEspecialidades();
             }
         },
         methods: {
@@ -160,7 +159,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         params: self.filter
                     })
                     .then(function(response) {
-                        // handle success
                         console.log(response.data);
                         console.log("Se obtuvo todas las especialidades");
                         self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
@@ -194,6 +192,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 console.log("borra especialidad id: " + id);
                                 console.log(response.data);
                                 self.getEspecialidades();
+                                Swal.fire({
+                                    title: 'Se ha borrado con exito',
+                                    icon: 'success',
+                                })
                             })
                             .catch(function(error) {
                                 // handle error
@@ -202,10 +204,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             .then(function() {
                                 // always executed
                             });
-                        Swal.fire({
-                            title: 'Se ha borrado con exito',
-                            icon: 'success',
-                        })
+                        
                     }
                 }, );
             },
@@ -219,12 +218,16 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 var self = this;
                 axios.post('/apiv1/especialidad', self.especialidad)
                     .then(function(response) {
-                        // handle success
                         console.log(response.data);
                         self.getEspecialidades()
-                        // self.posts.unshift(response.data);
                         self.especialidad = {};
                         self.showModal = false;
+                        Swal.fire({
+                            title: 'Se creo el registro correctamente',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                        })
                     })
                     .catch(function(error) {
                         // handle error
@@ -235,12 +238,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                Swal.fire({
-                    title: 'Se creo el registro correctamente',
-                    icon: 'success',
-                    showConfirmButton: true,
-                    confirmButtonText: 'Aceptar',
-                })
+                
+
             },
             updateEspecialidad: function(key) {
                 var self = this;

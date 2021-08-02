@@ -46,6 +46,7 @@ class ObrasocialSearch extends Obrasocial
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5]
         ]);
 
         $this->load($params,'');

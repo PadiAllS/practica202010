@@ -5,12 +5,12 @@ namespace app\modules\Apiv1\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Turno;
+use \app\modules\Apiv1\models\Turno;
 
 /**
  * TurnoSearch represents the model behind the search form of `app\models\Turno`.
  */
-class TurnoSearch extends Turno
+class TurnoSearch extends \app\modules\Apiv1\models\Turno
 {
     /**
      * {@inheritdoc}

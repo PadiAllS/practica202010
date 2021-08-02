@@ -1,4 +1,5 @@
 .DS_Store
 mysqldata/*
 src/composer/*
+docker-compose.yml
 .vscode

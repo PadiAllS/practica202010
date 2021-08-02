@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\Apiv1\models;
+namespace app\models;
 
 /**
  * This is the ActiveQuery class for [[Turno]].

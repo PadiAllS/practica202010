@@ -6,7 +6,8 @@ $this->registerCssFile("//unpkg.com/bootstrap/dist/css/bootstrap.min.css", ['pos
 $this->registerCssFile("//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css", ['position' => $this::POS_HEAD]);
 
 $this->registerJsFile("https://cdn.jsdelivr.net/npm/vue/dist/vue.js", ['position' => $this::POS_HEAD]);
-$this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js", ['position' => $this::POS_HEAD]);
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js", ['position' => $this::POS_HEAD]);$this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js", ['position' => $this::POS_HEAD]);
+
 
 $this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js", ['position' => $this::POS_HEAD]);
 
@@ -25,145 +26,61 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </b-row>
     </div>
 
-            <div id="form-group">
-                <label for="medico">Elija un Medico</label>
-                <input type="text" v-model="filterxMedico.apellido" list="listMedico" @:keyup="editMedico(key)" class="form-control">
-                <datalist id="listMedico">
-                    <option v-for="medi in medicos">Dr: {{ medi.apellido}} {{medi.nombre}} </option>
-                </datalist>
-            </div>
-
-
-    <!-- <div v-if="paciente != null">
-        <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-            <b-thead head-variant="dark">
-                <template>
-                    <b-tr>
-                        <b-th>Nombre</b-th>
-                        <b-th>Apellido</b-th>
-                        <b-th>Especialidad</b-th>
-                        <b-th>Opciones</b-th>
-                    </b-tr>
-                    <div id="app">
-                </template>
-                <template>
-                    <b-tr>
-                        <b-td>
-                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.nombre">
-                        </b-td>
-                        <b-td>
-                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.apellido">
-                        </b-td>
-                        <b-td>
-                            <input v-on:keyup="getMedicos()" class="form-control" v-model="filterxMedico.especialidad">
-                        </b-td>
-
-
-                        <b-td>
-
-                        </b-td>
-                    </b-tr>
-                </template>
-            </b-thead>
-            <template>
-                <b-tbody table-variant="warning">
-                    <b-tr v-for="(medic,key) in medicos" v-bind:key="medic.id_medico">
-                        <b-td scope="row">{{medic.nombre}}</b-td>
-                        <b-td>{{medic.apellido}}</b-td>
-                        <b-td>{{medic.especialidad.nombre}}</b-td>
-                        <b-td>{{medic.horarioatencions.dia}}</b-td>
-                        <b-td>
-                            <button @click="editMedico(key)" type="button" class="btn btn-success">Selecionar</button>
-
-                        </b-td>
-                    </b-tr>
-                </b-tbody>
-            </template>
-            </b-table>
-            <b-container class="m-3">
-                <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-            </b-container>
-    </div> -->
-
-
-
-
-    <div class="form-group" v-if="medico.especialidad">
-        <h4>Dr. {{ medico.nombre }} {{ medico.apellido }} - Especialidad: {{ medico.especialidad.nombre }}</h4>
+    <div class="form-group">
+        <label for="medico">Elija un paciente</label>
+        <select class="form-control" v-model=paciente.id_paciente @change="getPaciente" v-model=filterxhorario.paciente_id>
+            <option v-for="paci in pacientes" :value="paci.id_paciente">
+                Sr/a: {{ paci.apellido}} {{paci.nombre}}
+            </option>
+        </select>
     </div>
 
-    <!-- Inicio Modal -->
-    <b-modal v-model="showModal" title="Turnos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
-        <form action="">
-            <div id="form-group">
-                <label for="paciente">Elija un paciente</label>
-                <input type="text" v-model="filterxPaciente.apellido" list="listPacientes" v-on:keyup="getPaciente()" class="form-control">
-                <datalist id="listPacientes">
-                    <option v-for="paci in pacientes">{{ paci.apellido}} {{paci.nombre}} </option>
-                </datalist>
-            </div>
+    <div class="form-group">
+        <label for="medico">Elija un medico</label>
+        <select class="form-control" v-model=medico.id_medico @change="getMedico"  v-model=filterxhorario.medico_id>
+            <option v-for="medic in medicos" :value="medic.id_medico">
+                {{medic.apellido}}
+            </option>
+        </select>
+    </div>
+
+    <!-- COMIENZA MODAL -->
+    <b-modal v-model="showModal" title="Turno" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
+        <div class="">
+            <ul>
+                <li><span class="">Nro de orden: {{turno.nro_orden}}</span></li>
+                <li><span class="">Fecha de consulta: {{turno.fecha_consulta}}</span></li>
+                <li><span class="">Hora de consulta: {{turno.hora_consulta}}</span></li>
+                <li><span class="">Doctor: {{turno.medico_id}}</span></li>
+                <li><span class="">Paciente: {{turno.paciente_id}}</span></li>
+            </ul>
 
 
-
-
-
-
-
-            <div class="form-group">
-                <!-- <label for="paciente">Elija un paciente</label>
-                <input type="search" name="paciente" list="listaPacientes" v-on:keyup="getPaciente()" class="form-control" v-model="filterxPaciente.apellido">
-                
-                <datalist id="listaPacientes"  class="form-control" v-model=paciente.id_paciente @change="getPaciente"  >
-                    <option v-for="paci in pacientes">
-                        {{paci.apellido}} {{paci.nombre}}
-                    </option>
-                </datalist> -->
-                <!-- <div class="form-group" v-if="paciente.obrasocial"> -->
-                <!-- <span>{{ paciente.nombre }} {{ paciente.apellido }} - Obra Social: {{ paciente.obrasocial.nombre }}</span> -->
-                <!-- </div>   -->
-            </div>
-            <div class="form-group">
-                <label for="nroOrden">Nro. de Orden</label>
-                <input v-model="turno.nro_orden" type="namber" name="nroOrden" id="nroOrden" class="form-control" placeholder="Ingrese nro de orden " aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.nro_orden">{{ errors.detalle }}</span>
-            </div>
-            <div class="form-group">
-                <label for="fechaConsulta">Fecha</label>
-                <input v-model="turno.fecha_consulta" type="date" name="fechaConsulta" id="fechaConsulta" class="form-control" placeholder="Ingrese fecha" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.fehca_consulta">{{ errors.detalle }}</span>
-            </div>
-
-            <div class="form-group">
-                <label for="horaConsulta">Hora</label>
-                <input v-model="turno.hora_consulta" type="time" name="horaConsulta" id="horaConsulta" class="form-control" placeholder="Ingrese hora" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.hora_consulta">{{ errors.detalle }}</span>
-            </div>
-
-        </form>
+        </div>
         <template v-slot:modal-footer="{ok, cancel, hide}">
-            <button v-if="isNewRecord" @click="addturno()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <button v-if="!isNewRecord" @click="updateTurno(turno.id_turno)" type="button" class="btn btn-primary m-3">Actualizar</button>
-
+            <button v-if="isNewRecord" @click="addTurno()" type="button" class="btn btn-primary m-3">Crear</button>
+            
         </template>
     </b-modal>
-    <!-- Termina el modal -->
+
+    <!-- TERMINA MODAL -->
 
     <p>
         <template>
+    <div class="row">
+
+        <div class="col-12 col-md-4">
+            <div class="form-group" v-if="medico.especialidad">
+                <h4> Horarios de Atención del Dr. {{ medico.nombre }} {{ medico.apellido }} - Especialidad: {{ medico.especialidad.nombre }}</h4>
+            </div>
             <div :key="mykey">
                 <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
                     <b-thead head-variant="dark">
                         <template>
                             <b-tr>
-                                <b-th>Id</b-th>
                                 <b-th>Día</b-th>
                                 <b-th>Desde</b-th>
                                 <b-th>Hasta</b-th>
-                                <b-th>Opciones</b-th>
                             </b-tr>
                             <div id="app">
                         </template>
@@ -174,28 +91,68 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <template>
                         <b-tbody table-variant="warning">
                             <b-tr v-for="hora in medico.horarioatencions" :key="hora.id_horarioAtencion">
-                                <b-td scope="row">{{hora.id_horarioAtencion}}</b-td>
-                                <b-td>{{hora.dia}}</b-td>
+                                <b-td scope="row">{{hora.dia}}</b-td>
                                 <b-td>{{hora.deste}}</b-td>
                                 <b-td>{{hora.hasta}}</b-td>
-                                <b-td>
-                                    <button @click="showModal=true" type='button' class="btn btn-primary">Agregar Turno</button>
-                                    <!-- <button @click="showModal=true" v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button> -->
-                                    <!-- <button v-on:click="deleteHorarioatencion(hora.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button> -->
-                                </b-td>
                             </b-tr>
                         </b-tbody>
                     </template>
                     </b-table>
-                    <b-container class="m-3">
-                        <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-                    </b-container>
             </div>
+        </div>
+
+        <div class="col-12 col-md-8">
+
+            <div class="form-group">
+                <label for="fechaConsulta">Fecha</label>
+                <input  v-model="fechaConsulta" type="date" name="fechaConsulta" id="fechaConsulta" class="form-control" placeholder="Ingrese fecha" aria-describedby="helpId">
+                <small id="bodyhelpId" class="text-muted"></small>
+                <span class="text-danger" v-if="errors.fecha_consulta">{{ errors.detalle }}</span>
+            </div>
+            <div class="form-group" v-if="fechaConsulta" @click="diaDeLaSemana(turno.fecha_consulta)">
+                <h4>Consultas del dia {{ diaDeConsulta + ' ' + fechaConsulta }}</h4>
+            </div>
+
+            <div :key="mykey">
+                <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
+                    <b-thead head-variant="dark">
+                        <template>
+                            <b-tr>
+                                <b-th>Nro</b-th>
+                                <b-th>Hora</b-th>
+                                <b-th>Paciente</b-th>
+                                <b-th>Dar/Cancelar</b-th>
+                            </b-tr>
+                            <div id="app">
+                        </template>
+                        
+                    </b-thead>
+                    <b-tbody table-variant="warning">
+                        <b-tr v-for="(turno,i) in horarioAtencion" :key="i">
+                            <b-td scope="row">{{turno.nroOrden}}</b-td>
+                            <b-td>{{turno.horaInicio}}</b-td>
+                            <b-td>{{turno.paciente}}</b-td>
+                            <b-td>
+                                <button v-if="turno.estado" @click="showModal=true" v-on:click="armarTurno(turno.nroOrden,turno.horaInicio)" type="button" class="btn btn-success">Dar turno</button>
+                                <button v-if="!turno.estado" v-on:click="deleteTurno(turno.id)" type="button" class="btn btn-danger">Cancelar Turno</button>
+                            </b-td>
+                        </b-tr>
+                    </b-tbody>
+                    </b-table>
+
+            </div>
+        </div>
         </template>
-    </p>
+        </p>
 </b-container>
 
 <script>
+
+    var today = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    console.log("fecha de hoy");
+    console.log(today);
+
     var app = new Vue({
 
         el: "#app",
@@ -203,8 +160,14 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             return {
                 mykey: 0,
                 msg: "TURNOS",
+                intervalo: 30,
+                fecha: new Date(),
+                fechaConsulta: null,
                 dias: [],
                 horarioAtencion: [],
+                diasAtencion: [],
+                diaAtencion: {},
+                horariosxDia: [],
                 pacientes: [], //tabla de todos los pacientes
                 paciente: {}, //el paciente seleccionado
                 medicos: [], //todos los medicos
@@ -212,6 +175,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 turno: {}, //nuevo turno
                 turnos: [], //todos los turnos
                 //horarioxMedico: {}, //lista los datos de un medico (especialidad y horariosatencion)
+                diaDeConsulta: null,
                 filterxMedico: {}, //filtra los medicos
                 filterxPaciente: {},
                 filter: {}, // filtra los horariosatencion
@@ -231,7 +195,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 headVariant: 'dark',
                 borderer: true,
                 tableVariant: 'primary',
-                options: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange']
+                options: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange'],
+                dias: ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO']
             }
         },
         mounted() {
@@ -242,6 +207,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         watch: {
             currentPage: function() {
                 this.getHorariosatencion();
+
+            },
+            fechaConsulta: function(){
+                this.getHorarioCompleto();
             }
 
         },
@@ -249,7 +218,91 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         computed: {
 
         },
+
         methods: {
+            diaDeLaSemana: function() {
+                var dia = new Date(this.fechaConsulta);
+                var dianro = dia.getDay();
+                this.diaDeConsulta = this.dias[dianro];
+                return this.diaDeConsulta;
+            },
+
+            arrayDeHorarioAtencion: function() {
+                var diasAtenc = [];
+                diasAtenc = this.medico.horarioatencions.slice();
+                this.diasAtencion = diasAtenc.slice();
+                return this.diasAtencion;
+            },
+
+            selectDia : function(){
+                for(let selDia of this.diasAtencion){
+                    if (this.diaDeConsulta == selDia.dia) {
+                        this.diaAtencion.dia = selDia.dia;
+                        this.diaAtencion.deste = selDia.deste;
+                        this.diaAtencion.hasta = selDia.hasta;
+                        return this.diaAtencion;
+                    }else {
+                        this.diaAtencion = {};
+                    }
+
+                };
+            },
+
+            getArrayTurnos(){
+                this.horarioAtencion = [];
+                this.diaDeLaSemana();
+                this.arrayDeHorarioAtencion();
+                this.selectDia();
+                const intervalo= 30;
+                let desde = moment(this.diaAtencion.deste,'HH:mm:ss');
+                let hasta = moment(this.diaAtencion.hasta,'HH:mm:ss');
+                hasta.subtract(intervalo,'m');
+                let nroOrd = 0;
+                let estado = true;
+
+                while (desde.isBefore(hasta)){
+                    nroOrd += 1;
+                    if (nroOrd == 1){
+                        this.horarioAtencion.push({
+                            nroOrden: nroOrd,
+                            horaInicio: desde.format('HH:mm:ss'),
+                            estado: true,
+                        });
+                    } else {
+                        desde.add(intervalo, 'm').format('HH:mm:ss');
+                        this.horarioAtencion.push({
+                            nroOrden: nroOrd,
+                            horaInicio: desde.format('HH:mm:ss'),
+                            estado: true,
+                        });
+                    }
+
+                };
+
+                
+            },
+
+            getHorarioCompleto: function (){
+                this.getArrayTurnos();
+                for (let selectMedico of this.turnos){
+                    if (this.medico.id_medico == selectMedico.medico.id_medico && this.fechaConsulta == selectMedico.fecha_consulta){
+                        for(let i = 0; i < this.horarioAtencion.length ; i++){
+                            if (selectMedico.hora_consulta == this.horarioAtencion[i].horaInicio){
+
+                                this.horarioAtencion[i].estado = false;
+                                this.horarioAtencion[i].id = selectMedico.id_turno;
+                                this.horarioAtencion[i].paciente = selectMedico.paciente.apellido + ' ' + selectMedico.paciente.nombre;
+                                // this.horarioAtencion[i].pacienteNo = selectMedico.paciente.nombre;
+                            } 
+                            
+                        };
+                    };
+                };
+                this.mykey++;
+            },
+
+            
+
             normalizeErrors: function(errors) {
                 var allErrors = {};
                 for (var i = 0; i < errors.length; i++) {
@@ -258,13 +311,25 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 return allErrors;
             },
 
+            armarTurno: function (nro,inicio){
+                this.turno.nro_orden = parseInt(nro);
+                this.turno.fecha_registro = today
+                this.turno.fecha_consulta = this.fechaConsulta;
+                this.turno.hora_consulta = inicio;
+                this.turno.paciente_id = this.paciente.id_paciente;
+                this.turno.medico_id = this.medico.id_medico;
+                console.log(this.turno);
+
+                return this.turno;
+            },
+
+
             //operaciones tabla medicos
 
             getMedicos: function() {
                 var self = this;
-                axios.get('/apiv1/medico?page=' + self.currentPage, {
-                        params: self.filterxMedico
-                    })
+                const params = this.filterxMedico;
+                axios.get('/apiv1/medico?page=' + self.currentPage,params)
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -282,7 +347,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             },
             getMedico: function(key) {
                 var self = this;
-                axios.get('/apiv1/medico/' + self.medico.id_medico, )
+                const params = {
+                    expand:['especialidad','horarioatencions'].toString()
+                }
+                axios.get('/apiv1/medico/' + self.medico.id_medico,{params})
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -309,8 +377,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             getPacientes: function() {
                 var self = this;
                 axios.get('/apiv1/paciente?page=' + self.currentPage, {
-                        params: self.filterxPaciente
-                    })
+                    params: self.filterxPaciente
+                })
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -372,6 +440,28 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     });
             },
 
+            // getTurnos: function() {
+            //     var self = this;
+            //     axios.get('/apiv1/turno?page=' + self.currentPage, {
+            //         params: self.filterxTurno
+            //     })
+            //         .then(function(response) {
+            //             // handle success
+            //             console.log(response.data);
+            //             console.log("Se obtuvo todos los turnos");
+            //             self.turnos = response.data;
+            //         })
+            //         .catch(function(error) {
+            //             // handle error
+            //             self.errors = self.normalizeErrors(error.response.data);
+            //             console.log(self.errors);
+            //         })
+            //         .then(function() {
+            //             // always executed
+            //         });
+            // },
+
+
             deleteTurno: function(id) {
                 Swal.fire({
                     title: 'Esta seguro que desea borrar el registro ' + id + '?',
@@ -389,6 +479,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 console.log("borra turno id: " + id);
                                 console.log(response.data);
                                 self.getTurnos();
+                                self.turno = {};
+                                self.paciente = {};
+                                self.medico = {};
+                                self.fechaConsulta = null;
                             })
                             .catch(function(error) {
                                 // handle error
@@ -421,6 +515,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         self.getTurnos();
                         // self.posts.unshift(response.data);
                         self.turno = {};
+                        self.paciente = {};
+                        self.medico = {};
+                        self.fechaConsulta = null;
                         self.showModal = false;
                     })
                     .catch(function(error) {
@@ -442,18 +539,24 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             updateTurno: function(key) {
                 var self = this;
                 const params = new URLSearchParams();
-                params.append('nro_orden', self.turno.nro_orden);
-                params.append('fecha_registro', self.turno.fecha_registro);
-                params.append('fecha_consulta', self.turno.fecha_consulta);
-                params.append('hora_consulta', self.turno.hora_consulta);
+                params.append('nro_orden', self.turno.nroOrden);
+                params.append('fecha_registro', self.turno.fechaRegistro);
+                params.append('fecha_consulta', self.turno.fechaConsulta);
+                params.append('hora_consulta', self.turno.horaConsulta);
+                params.append('paciente_id', self.turno.paciente_id);
+                params.append('medico_id', self.turno.medico_id);
                 axios.patch('/apiv1/turno/' + key, params)
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
                         self.getTurnos();
                         self.turno = {};
+                        self.paciente = {} ;
+                        self.medico = {} ;
+                        self.fechaConsulta = null;
                         self.isNewRecord = true;
                         self.showModal = false;
+                        
                     })
                     .catch(function(error) {
                         // handle error
@@ -467,4 +570,5 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         }
 
     })
+
 </script>

@@ -492,3 +492,36 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
     })
 </script>
+
+
+
+
+
+
+arrayDeTurnos: function() {
+                var nroOrden = 0;
+                var horario = new time();
+                var diasAtencion = {};
+                var diasAtencion = this.medico.horarioatencions;
+                console.log(diasAtencion);
+                diasaAtencion.forEach(selectDia);
+
+                function selectDia(){
+                    if (this.diaDeConsulta == diasaAtencion.dia) {
+                        diaAtencion = diasAtencion.dia;
+                        return diaAtencion;
+                    }
+                           
+                    for (i = diaAtencion.deste; i == diaAtencion.hasta; i+30 ) {
+                    nroOrden++;
+                    horario = i;
+                    this.horarioAtencion.push({
+                        nroOrden = nroOrden, 
+                        deste = horario});
+                    console.log(this.arrayDeTurnos);
+                    return this.arrayDeTurnos;
+                    }
+
+                };
+
+            },

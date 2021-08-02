@@ -7,7 +7,7 @@ class Medico extends \app\models\Medico
     
     public function fields()
     {
-        return ['id_medico', 'nombre', 'apellido','especialidad','horarioatencions'];
+        return ['id_medico', 'nombre', 'apellido', 'direccion', 'localidad', 'codigo_postal', 'telefono', 'celular', 'mail', 'fecha_nacimiento', 'sexo', 'tipo_documento', 'nro_documento', 'matricula', 'duracion_consulta', 'especialidad','horarioatencions'];
     }
 
     public function getEspecialidad()

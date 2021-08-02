@@ -46,6 +46,7 @@ class MedicoSearch extends \app\modules\Apiv1\models\Medico
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5]
         ]);
 
         $this->load($params,'');

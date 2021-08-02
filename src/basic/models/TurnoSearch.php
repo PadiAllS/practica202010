@@ -41,14 +41,15 @@ class TurnoSearch extends Turno
     public function search($params)
     {
         $query = Turno::find();
-
+        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5]
         ]);
 
-        $this->load($params,'');
+        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

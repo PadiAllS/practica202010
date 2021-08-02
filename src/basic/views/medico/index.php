@@ -26,40 +26,174 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
     </div>
     
 
-    <!-- </b-container> -->
+   
 
-    <!-- Button trigger modal -->
-    <b-modal v-model="showModal" title="Medico" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
+    <!-- Comienza el modal -->
+    <b-modal v-model="showModal" title="Medicos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" size="xl" id="my-modal">
+
         <form action="">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input v-model="medico.nombre" type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese nombre" aria-describedby="helpId">
-                <small id="titlehelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.nombre"> {{ errors.nombre }} </span>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input v-model="medico.nombre" type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese nombre" aria-describedby="helpId">
+                        <small id="titlehelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.nombre"> {{ errors.nombre }} </span>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input v-model="medico.apellido" type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingrese apellido" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.apellido">{{ errors.apellido }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="apellido">Apellido</label>
-                <input v-model="medico.apellido" type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingrese apellido" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.apellido">{{ errors.apellido }}</span>
+
+            <div class="row">
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input v-model="medico.direccion" type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese dirección" aria-describedby="helpId">
+                        <small id="titlehelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.direccion"> {{ errors.direccion }} </span>
+                    </div>
+                </div>
+
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="localidad">Localidad</label>
+                        <input v-model="medico.localidad" type="text" name="localidad" id="localidad" class="form-control" placeholder="Ingrese localidad" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.localidad">{{ errors.localidad }}</span>
+                    </div>
+                </div>
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="codigo_postal">Cod.Postal</label>
+                        <input v-model="medico.codigo_postal" type="text" name="codigo_postal" id="codigo_postal" class="form-control" placeholder="Ingrese C.P." aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.codigo_postal">{{ errors.codigo-postal }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="especialidad">Especialidad</label>
-                <select class="form-control" v-model="medico.especialidad_id">
-                    <option v-for="espec in especialidades" :value="espec.id_especialidad">
-                        {{espec.nombre}}
-                    </option>
-                </select>
+
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <label for="fecha_nacimiento">Fecha Nac.</label>
+                        <input v-model="medico.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
+                        <small id="titlehelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.fecha_nacimiento"> {{ errors.fecha_nacimiento }} </span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <label for="sexo">Sexo</label>
+                        <b-form-select v-model="medico.sexo" :options="sexo"></b-form-select>
+                        <!-- <div class="mt-3"><strong>{{ medico.sexo }}</strong></div> -->
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.sexo">{{ errors.sexo }}</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="form-group">
+                        <label for="tipo_documento">Tipo Doc.</label>
+                        <b-form-select v-model="medico.tipo_documento" :options="tipo_documento"></b-form-select>
+                        <!-- <div class="mt-3"><strong>{{ medico.tipoDoc }}</strong></div> -->
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.tipo_documento">{{ errors.tipo_documento }}</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="form-group">
+                        <label for="nro_documento">Nro. Doc.</label>
+                        <input v-model="medico.nro_documento" type="text" name="nro_documento" id="nro_documento" class="form-control" placeholder="Ingrese nro. doc." aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.nro_documento">{{ errors.nro_documento }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="telefono">Telefono</label>
+                        <input v-model="medico.telefono" type="text" name="telefono" id="telefono" class="form-control" placeholder="Ingrese telefono fijo" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.telefono">{{ errors.telefono }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="celular">Celular</label>
+                        <input v-model="medico.celular" type="text" name="celular" id="celular" class="form-control" placeholder="Ingrese telefono mobil" aria-describedby="helpId">
+                        <small id="titlehelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.celular"> {{ errors.celular }} </span>
+                    </div>
+                </div>
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="mail">E-mail</label>
+                        <input v-model="medico.mail" type="mail" name="mail" id="mail" class="form-control" placeholder="Ingrese su mail" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.mail">{{ errors.mail }}</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="matricula">Matricula</label>
+                        <input v-model="medico.matricula" type="text" name="matricula" id="matricula" class="form-control" placeholder="Ingrese su matricula" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.matricula">{{ errors.matricula }}</span>
+                    </div>
+                </div>
+                
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="duracion_consulta">Duración consulta</label>
+                        <input v-model="medico.duracion_consulta" type="text" name="duracion_consulta" id="duracion_consulta" class="form-control" placeholder="Ingrese duración consulta en minutos" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.suracion_consulta">{{ errors.duracion_consulta }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="especialidad">Especialidad</label>
+                        <select class="form-control" v-model="medico.especialidad_id">
+                            <option v-for="espec in especialidades" :value="espec.id_especialidad">
+                                {{espec.nombre}}
+                            </option>
+                        </select>
+                        
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span></span>
+                    </div>
+                </div>
             </div>
 
         </form>
         <template v-slot:modal-footer="{ok, cancel, hide}">
-            <button v-if="isNewRecord" @click="addMedico()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <button v-if="!isNewRecord" @click="updateMedico(medico.id_medico)" type="button" class="btn btn-primary m-3">Actualizar</button>
-
+            
+            <button v-if="isNewRecord" @cl  >
+                <button v-if="isNewRecord" @click="addMedico()" type="button" class="btn btn-primary m-3">Nuevo Medico</button>
+                <button v-if="!isNewRecord" @click="updateMedico(medico.id_medico)" type="button" class="btn btn-primary m-3">Actualizar</button>
+            
         </template>
+
+        
+
+
     </b-modal>
+
+    
     <!-- Termina el modal -->
     <p>
         <template>
@@ -132,6 +266,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         data: function() {
             return {
                 msg: "MEDICOS",
+                sexo: ['Femenino', 'Masculino', 'Otros'],
+                tipo_documento: ['DNI','LE','LC'],
                 especialidades: [],
                 medicos: [],
                 medico: {},
@@ -159,7 +295,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         },
         watch: {
             currentPage: function() {
-                this.getPatologias();
+                this.getMedicos();
             }
         },
         methods: {
@@ -174,16 +310,14 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
             getEspecialidades: function() {
                 var self = this;
-                axios.get('/apiv1/especialidad?page=' + self.currentPage, {
-                        params: self.filter
-                    })
+                axios.get('/apiv1/especialidad') 
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
-                        console.log("Se obtuvo todas las especialidades");
-                        self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
-                        self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
-                        self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
+                        // console.log("Se obtuvo todas las especialidades");
+                        // self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
+                        // self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
+                        // self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
                         self.especialidades = response.data;
                     })
                     .catch(function(error) {
@@ -193,7 +327,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     })
                     .then(function() {
                         // always executed
-                    });
+                    })
             },
 
             getMedicos: function() {
@@ -236,6 +370,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 console.log("borra medico id: " + id);
                                 console.log(response.data);
                                 self.getMedicos();
+                                Swal.fire({
+                                    title: 'Se ha borrado con exito',
+                                    icon: 'success',
+                                })
                             })
                             .catch(function(error) {
                                 // handle error
@@ -244,10 +382,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             .then(function() {
                                 // always executed
                             });
-                        Swal.fire({
-                            title: 'Se ha borrado con exito',
-                            icon: 'success',
-                        })
+                        
                     }
                 }, );
             },
@@ -261,12 +396,16 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 var self = this;
                 axios.post('/apiv1/medico', self.medico)
                     .then(function(response) {
-                        // handle success
                         console.log(response.data);
                         self.getMedicos()
-                        // self.posts.unshift(response.data);
                         self.medico = {};
                         self.showModal = false;
+                        Swal.fire({
+                            title: 'Se creo el registro correctamente',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                        })
                     })
                     .catch(function(error) {
                         // handle error
@@ -277,18 +416,25 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                Swal.fire({
-                    title: 'Se creo el registro correctamente',
-                    icon: 'success',
-                    showConfirmButton: true,
-                    confirmButtonText: 'Aceptar',
-                })
+                
             },
             updateMedico: function(key) {
                 var self = this;
                 const params = new URLSearchParams();
                 params.append('nombre', self.medico.nombre);
                 params.append('apellido', self.medico.apellido);
+                params.append('direccion', self.medico.direccion);
+                params.append('localidad', self.medico.localidad);
+                params.append('codigo_postal', self.medico.codigo_postal);
+                params.append('telefono', self.medico.telefono);
+                params.append('celular', self.medico.celular);
+                params.append('mail', self.medico.mail);
+                params.append('fecha_nacimiento', self.medico.fecha_nacimiento);
+                params.append('sexo', self.medico.sexo);
+                params.append('tipo_documento', self.medico.tipo_documento);
+                params.append('nro_documento', self.medico.nro_documento);
+                params.append('matricula', self.medico.matricula);
+                params.append('duracion_consulta', self.medico.duracion_consulta);
                 params.append('especialidad_id', self.medico.especialidad_id);
                 axios.patch('/apiv1/medico/' + key, params)
                     .then(function(response) {

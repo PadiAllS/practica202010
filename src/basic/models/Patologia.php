@@ -30,6 +30,7 @@ class Patologia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['nombre', 'detalle'], 'required'],
             [['nombre'], 'string', 'max' => 50],
             [['detalle'], 'string', 'max' => 80],
         ];

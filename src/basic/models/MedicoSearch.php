@@ -17,8 +17,8 @@ class MedicoSearch extends Medico
     public function rules()
     {
         return [
-            [['id_medico', 'especialidad_id'], 'integer'],
-            [['nombre', 'apellido'], 'safe'],
+            [['id_medico', 'especialidad_id', 'duracion_consulta'], 'integer'],
+            [['nombre', 'apellido', 'direccion', 'localidad', 'codigo_postal', 'telefono', 'celular', 'mail', 'fecha_nacimiento', 'sexo', 'tipo_documento', 'nro_documento', 'matricula'], 'safe'],
         ];
     }
 
@@ -46,9 +46,10 @@ class MedicoSearch extends Medico
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 5]
         ]);
 
-        $this->load($params,'');
+        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -60,10 +61,22 @@ class MedicoSearch extends Medico
         $query->andFilterWhere([
             'id_medico' => $this->id_medico,
             'especialidad_id' => $this->especialidad_id,
+            'fecha_nacimiento' => $this->fecha_nacimiento,
+            'duracion_consulta' => $this->duracion_consulta,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'apellido', $this->apellido]);
+            ->andFilterWhere(['like', 'apellido', $this->apellido])
+            ->andFilterWhere(['like', 'direccion', $this->direccion])
+            ->andFilterWhere(['like', 'localidad', $this->localidad])
+            ->andFilterWhere(['like', 'codigo_postal', $this->codigo_postal])
+            ->andFilterWhere(['like', 'telefono', $this->telefono])
+            ->andFilterWhere(['like', 'celular', $this->celular])
+            ->andFilterWhere(['like', 'mail', $this->mail])
+            ->andFilterWhere(['like', 'sexo', $this->sexo])
+            ->andFilterWhere(['like', 'tipo_documento', $this->tipo_documento])
+            ->andFilterWhere(['like', 'nro_documento', $this->nro_documento])
+            ->andFilterWhere(['like', 'matricula', $this->matricula]);
 
         return $dataProvider;
     }

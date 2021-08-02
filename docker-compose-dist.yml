@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+   db:
+     image: mysql:5.7.27
+     environment:
+        MYSQL_DATABASE: histclin
+        MYSQL_ROOT_PASSWORD: histclin
+     ports:
+        - 4000:3306
+     volumes:
+        - ./mysqldata:/var/lib/mysql:delegated
+
+   app2:
+      image: yiisoftware/yii2-php:7.3-apache
+      volumes: 
+        - ./src/composer/cache:/root/.composer/cahe:delegated
+        - ./src/basic:/app:delegated
+      ports:
+        - 8000:80
+      environment:
+        DB_DATABASE: histclin
+        DB_PASSWORD: histclin
+        DB_HOST: db
+        PHP_USER_ID: 1000
+        PRODUCCION: 0
+        PHP_ENABLE_XDEBUG: 1
+        XDEBUG_CONFIG: remote_connect_back=1 idekey=VSCODE
+
+   phpmyadmin:      
+      image: phpmyadmin/phpmyadmin
+      environment:
+         PMA_HOST: db
+         PMA_USER: root
+         PMA_PASSWORD: histclin
+         PMA_PORT: 3306
+      ports:
+         - 8001:80

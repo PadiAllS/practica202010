@@ -31,6 +31,7 @@ class Horarioatencion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['dia', 'deste', 'hasta'], 'required'],
             [['deste', 'hasta'], 'safe'],
             [['dia'], 'string', 'max' => 50],
         ];

@@ -46,94 +46,99 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         <b-button @click="showModal1=true" type='button' block variant="primary">Asignar Horario</button>
     </p>
 
-    <!-- Primer Modal -->
-    <b-modal v-model="showModal" title="Horarios de Atencion" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
-        <form action="">
-            <div class="form-group">
-                <label for="dia">Día de la Semana</label>
-                <b-form-select v-model="horarioAtencion.dia" :options="dias"></b-form-select>
-                <div class="mt-3"><strong>{{ horarioAtencion.dia }}</strong></div>
+    <b-modal v-model="showModal" title="Horarios de Atención" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" size="xl" id="my-modal">
+        <div container>
+            <form action="">
+            <div class="row">
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="dia">Día de la Semana</label>
+                        <b-form-select v-model="horarioAtencion.dia" :options="dias"></b-form-select>
+                    </div>
+                </div>
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="desde">Desde</label>
+                        <input v-model="horarioAtencion.deste" type="time" name="desde" id="desde" class="form-control" placeholder="Ingrese horario" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.deste">{{ errors.deste }}</span>
+                    </div>
+                </div>
+                <div class="col md-4">
+                    <div class="form-group">
+                        <label for="hasta">Hasta</label>
+                        <input v-model="horarioAtencion.hasta" type="time" name="hasta" id="hasta" class="form-control" placeholder="Ingrese horario" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.hasta">{{ errors.hasta }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="desde">Desde</label>
-                <input v-model="horarioAtencion.deste" type="time" name="desde" id="desde" class="form-control" placeholder="Ingrese horario" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.deste">{{ errors.deste }}</span>
-            </div>
-            <div class="form-group">
-                <label for="hasta">Hasta</label>
-                <input v-model="horarioAtencion.hasta" type="time" name="hasta" id="hasta" class="form-control" placeholder="Ingrese horario" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.hasta">{{ errors.hasta }}</span>
-            </div>
 
-            <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioAtencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button>
+                <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button>
+                <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
+                <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioAtencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button>
+            </form>
 
-
-
-        </form>
-        <template>
-            <div>
-                <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-                    <b-thead head-variant="dark">
-                        <template>
-                            <b-tr>
-                                <b-th>Id</b-th>
-                                <b-th>Dia</b-th>
-                                <b-th>Desde</b-th>
-                                <b-th>Hasta</b-th>
-                                <b-th>Opciones</b-th>
-                            </b-tr>
-                            <div id="app">
-                        </template>
-                        <template>
-                            <b-tr>
-                                <b-td>
-                                    <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.id_horarioAtencion">
-                                </b-td>
-                                <b-td>
-                                    <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.dia">
-                                </b-td>
-                                <b-td>
-                                    <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
-                                </b-td>
-                                <b-td>
-                                    <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
-                                </b-td>
-                                <b-td>
-                                    <b-container>
-                                        <b-row class="justify-content-md-center">
+            <template>
+                <div>
+                    <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
+                        <b-thead head-variant="dark">
+                            <template>
+                                <b-tr>
+                                    <!-- <b-th>Id</b-th> -->
+                                    <b-th>Dia</b-th>
+                                    <b-th>Desde</b-th>
+                                    <b-th>Hasta</b-th>
+                                    <b-th>Opciones</b-th>
+                                </b-tr>
+                            </template>
+                            <template>
+                                <b-tr>
+                                    <!-- <b-td>
+                                        <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.id_horarioAtencion">
+                                    </b-td> -->
+                                    <b-td>
+                                        <input v-on:change="getHorariosatencion()" class="form-control" v-model="filter.dia">
+                                    </b-td>
+                                    <b-td>
+                                        <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
+                                    </b-td>
+                                    <b-td>
+                                        <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
+                                    </b-td>
+                                    <b-td>
+                                        <b-container>
                                             <b-row class="justify-content-md-center">
-                                                <!-- <button @click="showModal=true" type='button' class="btn btn-primary">Nueva Especialidad</button> -->
+                                                <b-row class="justify-content-md-center">
+                                                    <!-- <button @click="showModal=true" type='button' class="btn btn-primary">Nueva Especialidad</button> -->
+                                                </b-row>
                                             </b-row>
-                                        </b-row>
-                                    </b-container>
-                                </b-td>
-                            </b-tr>
+                                        </b-container>
+                                    </b-td>
+                                </b-tr>
+                            </template>
+                        </b-thead>
+                        <template>
+                            <b-tbody table-variant="warning">
+                                <b-tr v-for="(horario,key) in horarios" v-bind:key="horario.id_horarioAtencion">
+                                    <!-- <b-td scope="row">{{horario.id_horarioAtencion}}</b-td> -->
+                                    <b-td>{{horario.dia}}</b-td>
+                                    <b-td>{{horario.deste}}</b-td>
+                                    <b-td>{{horario.hasta}}</b-td>
+                                    <b-td>
+                                        <button v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button>
+                                        <button v-on:click="deleteHorarioatencion(horario.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button>
+                                    </b-td>
+                                </b-tr>
+                            </b-tbody>
                         </template>
-                    </b-thead>
-                    <template>
-                        <b-tbody table-variant="warning">
-                            <b-tr v-for="(horario,key) in horarios" v-bind:key="horario.id_horarioAtencion">
-                                <b-td scope="row">{{horario.id_horarioAtencion}}</b-td>
-                                <b-td>{{horario.dia}}</b-td>
-                                <b-td>{{horario.deste}}</b-td>
-                                <b-td>{{horario.hasta}}</b-td>
-                                <b-td>
-                                    <button v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button>
-                                    <button v-on:click="deleteHorarioatencion(horario.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button>
-                                </b-td>
-                            </b-tr>
-                        </b-tbody>
-                    </template>
                     </b-table>
-                    <b-container class="m-3">
-                        <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-                    </b-container>
-            </div>
-        </template>
+                        <b-container class="m-3">
+                            <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
+                        </b-container>
+                </div>
+            </template>
+        </div>
 
 
         <template v-slot:modal-footer="{}">
@@ -167,6 +172,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </template>
 
     </b-modal>
+    
     <!-- Termina el modal  -->
     <p>
         <template>
@@ -201,9 +207,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         </b-tr>
                     </b-tbody>
                     </b-table>
-                    <b-container class="m-3">
-                        <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-                    </b-container>
+                    
             </div>
         </template>
     </p>
@@ -255,7 +259,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         watch: {
             currentPage: function() {
                 this.getHorariosatencion();
-                this.getMedicos();
+                
             }
 
         },

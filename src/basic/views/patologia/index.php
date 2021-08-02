@@ -43,7 +43,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </form>
         <template v-slot:modal-footer="{ok, cancel, hide}">
             <button v-if="isNewRecord" @click="addPatologia()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
+            
             <button v-if="!isNewRecord" @click="updatePatologia(patologia.id)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>
@@ -93,7 +93,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-td>{{patol.nombre}}</b-td>
                                 <b-td>{{patol.detalle}}</b-td>
                                 <b-td>
-                                    <button @click="showModal=true" v-on:click="editPatologia(key)" type="button" class="btn btn-warning">Editar</button>
+                                    <button @click="showModal=true" v-on:click="editPatologia(key)" type="button" class="btn btn-success">Editar</button>
                                     <button v-on:click="deletePatologia(patol.id_patologia)" type="button" class="btn btn-danger">Borrar</button>
                                 </b-td>
                             </b-tr>
@@ -224,7 +224,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // handle success
                         console.log(response.data);
                         self.getPatologia()
-                        // self.posts.unshift(response.data);
                         self.patologia = {};
                         self.showModal = false;
                         Swal.fire({
@@ -254,7 +253,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
-                        self.getpatologia();
+                        self.getPatologia();
                         self.patologia = {};
                         self.isNewRecord = true;
                         self.showModal = false;
