@@ -25,14 +25,6 @@ Estructura de directorios
       vendor/             contiene packetes dependientes
       views/              contiene las vistas de aplicacion Web
 
-REQUERIMIENTOS
-------------
-
-*El requisito mínimo  de proyecto es que su servidor web sea compatible con [PHP](https://www.php.net/) 5.7.27
-
-*[GIT](https://git-scm.com/)
-
-*[docker](https://get.docker.com/) y [docker-composer](http://getcomposer.org/)
 
 Instalación
 ------------
@@ -45,32 +37,7 @@ Renombrar el archivo **docker-compose-dist.yml** por **docker-compose.yml**
  ```
    $ cp docker-compose.dist.yml docker-compose.yml
  ```   
- 
-Editar el archivo `docker-compose.yml` con datos reales personal, por ejemplo:
-
-```services:
-   db:
-     image: mysql:5.7.27
-     environment:
-        MYSQL_DATABASE: nombredeladb
-        MYSQL_ROOT_PASSWORD: contradeusuario
-```
-
-```app:
-    ports:
-        - 8000:80
-      environment:
-        DB_DATABASE: nombredeladb
-        DB_PASSWORD: contradeusuario
-        DB_HOST: db
-```
-``` phpmyadmin:
-         PMA_HOST: db
-         PMA_USER: root
-         PMA_PASSWORD: contradeusuario
-         PMA_PORT: 3306
-      ports:
-```      
+     
 ### Ejecucion de inicio :
 Ejecutar y levantar el repositorio. 
  ```
@@ -83,14 +50,14 @@ Estos comando instalaran la estructura del proyecto yii2 en nuestro host.
  ``` 
 
 Ejecutar por consola **first-start.sh** encontrado en la carpeta /bin.
-Estos comandos actualizan el composer y corrige los permisos a carpetas importantes para la aplicación.
+Estos comandos actualizan el composer y corrige los permisos a carpetas importantes para la aplicación. También ejecutan las migraciones de las tablas de la base de datos.
 ```
-   $ TPFinal/bin/first-start.sh
+   $ TPFinal/bin/first_start.sh
 ``` 
- Acceder al sitio desde la url : **localhost:8000** - PhpMyAdmin : **localhost:8001**
- 
- Usuario Prueba : **admin** pass: **123456**
+ Acceder al sitio desde la url : **localhost:8000** - 
+ Usuario: **admin** pass: **123456**
 
 ``` 
  Acceder al phpMyAdmin desde la url :
-PhpMyAdmin : **localhost:8001**
+**localhost:8001**
+
