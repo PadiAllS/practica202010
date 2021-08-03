@@ -54,6 +54,17 @@ class TurnoController extends Controller
         ]);
     }
 
+    public function actionTurno()
+    {
+        $searchModel = new TurnoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('turno', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Turno model.
      * @param integer $id

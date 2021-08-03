@@ -65,8 +65,15 @@ use app\assets\AppAsset;
                     "options" => ["class" => "navbar-nav"],
                 ]),
                 Yii::$app->user->isGuest ? (""): (
-                ['label' => 'Turnos', 'url' => ['/turno']
-                ]),
+                    [
+                        "label" => "Turnos",
+                        "items" => [
+                            ['label' => 'Gestion turnos', 'url' => ['/turno']],
+                            ['label' => 'Consultar turnos', 'url' => ['/turno/turno']],
+                        ],
+                        "options" => ["class" => "navbar-nav"],
+                    ]),
+                
                 Yii::$app->user->isGuest ? (""): (
                 ['label' => 'Registro', 'url' => ['/usuario/create']
                 ]),

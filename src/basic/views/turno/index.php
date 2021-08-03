@@ -253,7 +253,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 this.diaDeLaSemana();
                 this.arrayDeHorarioAtencion();
                 this.selectDia();
-                const intervalo= 30;
+                const intervalo= this.medico.duracion_consulta;
                 let desde = moment(this.diaAtencion.deste,'HH:mm:ss');
                 let hasta = moment(this.diaAtencion.hasta,'HH:mm:ss');
                 hasta.subtract(intervalo,'m');
