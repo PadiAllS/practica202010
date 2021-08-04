@@ -113,3 +113,11 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.site-login{
+    width:40%;
+    background-color: rgba(227, 188, 0, .5);
+    border: 1 px solid rgba(0, 100, 214, .5);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centra horizontal */
+    }
