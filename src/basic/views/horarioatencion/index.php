@@ -24,11 +24,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-    
+
     <!-- Comienza el modal -->
     <b-modal v-model="showModal" title="Horarios de Atención" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
-    <div class="row">
-        <form action="">
+        <div class="row">
+            <form action="">
                 <div class="col md-4">
                     <div class="form-group">
                         <label for="dia">Día de la Semana</label>
@@ -51,13 +51,13 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         <span class="text-danger" v-if="errors.hasta">{{ errors.hasta }}</span>
                     </div>
                 </div>
-            </div>
+        </div>
         </form>
 
 
         <template v-slot:modal-footer="{ok, cancel, hide}">
             <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button>
-            
+
             <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioAtencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>
@@ -82,10 +82,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                     <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.id_horarioAtencion">
                                 </b-td>
                                 <b-td>
-                                    
+
                                 </b-td>
                                 <b-td>
-                                    
+
                                 </b-td>
                                 <b-td>
                                     <b-container>
@@ -128,7 +128,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         data: function() {
             return {
                 msg: "Horarios de Atención",
-                dias: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'],
+                dias: ['1-LUNES', '2-MARTES', '3-MIERCOLES', '4-JUEVES', '5-VIERNES'],
                 horarios: [],
                 horarioAtencion: {},
                 filter: {},
