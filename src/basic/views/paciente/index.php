@@ -315,7 +315,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 pagination: {},
                 visible: true,
                 showModal: false,
-                docs: ['DNI', 'Carnet Extranjero', 'RUC', 'PASAPORTE', 'P.NAC', 'Otros'],
+                docs: ['DNI', 'CARNET EXTRANJERO', 'RUC', 'PASAPORTE', 'P.NAC', 'OTROS'],
                 sexos: ['Masculino', 'Femenino', 'Bisexual', 'Transexual', 'Indefinido'],
                 headerBgVariant: 'dark',
                 headerTextVariant: 'warning',
@@ -373,7 +373,17 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
                         self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
                         self.obrasocial = response.data;
-
+                        self.obrasocial.sort((a, b) => {
+                            let obraA = a.nombre.toUpperCase();
+                            let obraB = b.nombre.toUpperCase();
+                            if (obraA < obraB) {
+                                return -1;
+                            }
+                            if (obraA > obraB) {
+                                return 1;
+                            }
+                            return 0;
+                        })
 
                     })
                     .catch(function(error) {

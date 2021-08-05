@@ -24,9 +24,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-    
 
-   
+
+
 
     <!-- Comienza el modal -->
     <b-modal v-model="showModal" title="Medicos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" size="xl" id="my-modal">
@@ -155,7 +155,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         <span class="text-danger" v-if="errors.matricula">{{ errors.matricula }}</span>
                     </div>
                 </div>
-                
+
                 <div class="col md-4">
                     <div class="form-group">
                         <label for="duracion_consulta">Duración consulta</label>
@@ -172,7 +172,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 {{espec.nombre}}
                             </option>
                         </select>
-                        
+
                         <small id="bodyhelpId" class="text-muted"></small>
                         <span></span>
                     </div>
@@ -181,19 +181,19 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
         </form>
         <template v-slot:modal-footer="{ok, cancel, hide}">
-            
-            <button v-if="isNewRecord" @cl  >
+
+            <button v-if="isNewRecord" @cl>
                 <button v-if="isNewRecord" @click="addMedico()" type="button" class="btn btn-primary m-3">Nuevo Medico</button>
                 <button v-if="!isNewRecord" @click="updateMedico(medico.id_medico)" type="button" class="btn btn-primary m-3">Actualizar</button>
-            
+
         </template>
 
-        
+
 
 
     </b-modal>
 
-    
+
     <!-- Termina el modal -->
     <p>
         <template>
@@ -207,7 +207,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 <b-th>Apellido</b-th>
                                 <b-th>Especialidad</b-th>
                                 <b-th>Opciones</b-th>
-                            </b-tr><div id="app">
+                            </b-tr>
+                            <div id="app">
                         </template>
                         <template>
                             <b-tr>
@@ -221,7 +222,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                     <input v-on:change="getMedicos()" class="form-control" v-model="filter.apellido">
                                 </b-td>
                                 <b-td>
-                                    
+
                                 </b-td>
 
                                 <b-td>
@@ -266,8 +267,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         data: function() {
             return {
                 msg: "MEDICOS",
-                sexo: ['Femenino', 'Masculino', 'Otros'],
-                tipo_documento: ['DNI','LE','LC'],
+                sexo: ['FEMENINO', 'MASCULINO', 'OTROS'],
+                tipo_documento: ['DNI', 'CARNET EXTRANJERO', 'RUC', 'PASAPORTE', 'P.NAC', 'OTROS'],
                 especialidades: [],
                 medicos: [],
                 medico: {},
@@ -310,7 +311,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
             getEspecialidades: function() {
                 var self = this;
-                axios.get('/apiv1/especialidad') 
+                axios.get('/apiv1/especialidad')
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -382,7 +383,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             .then(function() {
                                 // always executed
                             });
-                        
+
                     }
                 }, );
             },
@@ -416,7 +417,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                
+
             },
             updateMedico: function(key) {
                 var self = this;

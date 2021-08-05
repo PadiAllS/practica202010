@@ -41,44 +41,39 @@ use app\assets\AppAsset;
         echo Nav::widget([
             'options' => ['class' => 'nav-pills navbar-nav ml-auto'],
             'items' => [
-                Yii::$app->user->isGuest ? (""): (
-                ['label' => 'Inicio', 'url' => ['/site/index']]
-                ),
-                Yii::$app->user->isGuest ? (""): (
-                [
-                    "label" => "Administracion",
-                    "items" => [
-                        ['label' => 'Especialidad', 'url' => ['/especialidad']],
-                        ['label' => 'Medico', 'url' => ['/medico']],
-                        ['label' => 'Horarios', 'url' => ['/horarioatencion']],
-                        ['label' => 'Asignar Horarios', 'url' => ['/medico/asignarhorario']],
-                    ],
-                    "options" => ["class" => "navbar-nav"],
-                ]),
-                Yii::$app->user->isGuest ? (""): (
-                [
-                    "label" => "Pacientes",
-                    "items" => [
-                        ['label' => 'Paciente', 'url' => ['/paciente']],
-                        ['label' => 'ObraSocial', 'url' => ['/obrasocial']],
-                        ['label' => 'Patologia', 'url' => ['/patologia']],
-                        
-                    ],
-                    "options" => ["class" => "navbar-nav"],
-                ]),
-                Yii::$app->user->isGuest ? (""): (
-                    [
-                        "label" => "Turnos",
+                Yii::$app->user->isGuest ? ("") : (['label' => 'Inicio', 'url' => ['/site/index']]),
+                Yii::$app->user->isGuest ? ("") : ([
+                        "label" => "Administracion",
                         "items" => [
-                            ['label' => 'Gestion turnos', 'url' => ['/turno']],
-                            ['label' => 'Consultar turnos', 'url' => ['/turno/turno']],
+                            ['label' => 'Especialidad', 'url' => ['/especialidad']],
+                            ['label' => 'Medico', 'url' => ['/medico']],
+                            ['label' => 'Horarios', 'url' => ['/horarioatencion']],
+                            ['label' => 'Asignar Horarios', 'url' => ['/medico/asignarhorario']],
                         ],
                         "options" => ["class" => "navbar-nav"],
                     ]),
-                
-                Yii::$app->user->isGuest ? (""): (
-                ['label' => 'Registro', 'url' => ['/usuario/create']
-                ]),
+                Yii::$app->user->isGuest ? ("") : ([
+                        "label" => "Pacientes",
+                        "items" => [
+                            ['label' => 'Paciente', 'url' => ['/paciente']],
+                            ['label' => 'ObraSocial', 'url' => ['/obrasocial']],
+                            ['label' => 'Patologia', 'url' => ['/patologia']],
+
+                        ],
+                        "options" => ["class" => "navbar-nav"],
+                    ]),
+                Yii::$app->user->isGuest ? ("") : ([
+                        "label" => "Turnos",
+                        "items" => [
+                            ['label' => 'Gestion turnos(Recepcion)', 'url' => ['/turno']],
+                            ['label' => 'Consultar turnos(Medicos)', 'url' => ['/turno/turno']],
+                        ],
+                        "options" => ["class" => "navbar-nav"],
+                    ]),
+
+                Yii::$app->user->isGuest ? ("") : ([
+                        'label' => 'Registro', 'url' => ['/usuario/create']
+                    ]),
 
                 Yii::$app->user->isGuest ? (['label' => 'Login', 'url' => ['/site/login']]) : ('<li>'
                     . Html::beginForm(['/site/logout'], 'post')

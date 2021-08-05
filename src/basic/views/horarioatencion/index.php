@@ -128,7 +128,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         data: function() {
             return {
                 msg: "Horarios de Atención",
-                dias: ['1-LUNES', '2-MARTES', '3-MIERCOLES', '4-JUEVES', '5-VIERNES'],
+                dias: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'],
                 horarios: [],
                 horarioAtencion: {},
                 filter: {},
