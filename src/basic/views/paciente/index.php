@@ -75,7 +75,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-group text-center">
                                                         <label for="fecha_nacimiento">Fecha-Nacimiento</label>
-                                                        <b-form-datepicker v-model="paciente.fecha_nacimiento" placeholder="Click aqui para seleccionar fecha" id="datepicker-valid"></b-form-datepicker>
+                                                        <input v-model="paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
+                                                        <small id="titlehelpId" class="text-muted"></small>
+                                                        <!-- <b-form-datepicker v-model="paciente.fecha_nacimiento" placeholder="Click aqui para seleccionar fecha" id="datepicker-valid"></b-form-datepicker> -->
                                                         <!-- <input v-model=" paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese su fecha de nacimiento" aria-describedby="helpId"> -->
                                                         <small id="bodyhelpId" class="text-muted"></small>
                                                         <span class="text-danger" v-if="errors.fecha_nacimiento">{{ errors.fecha_nacimiento }}</span>
@@ -316,7 +318,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 visible: true,
                 showModal: false,
                 docs: ['DNI', 'CARNET EXTRANJERO', 'RUC', 'PASAPORTE', 'P.NAC', 'OTROS'],
-                sexos: ['Masculino', 'Femenino', 'Bisexual', 'Transexual', 'Indefinido'],
+                sexos: ['FEMENINO', 'MASCULINO', 'OTROS'],
                 headerBgVariant: 'dark',
                 headerTextVariant: 'warning',
                 bodyBgVariant: 'info',

@@ -66,7 +66,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <b-td>{{turno.horaInicio}}</b-td>
                     <b-td>{{turno.paciente}}</b-td>
                     <b-td>
-                        <b-button v-on:click="showModal=true" @click=editPacientes(turno.paciente_id) variant="warning" size="lg">Ver Ficha</b-button>
+                        <b-button @click="showModal=true" v-on:click="editPacientes(turno.paciente_id)" variant="warning" size="lg">Ver Ficha</b-button>
                     </b-td>
                 </b-tr>
             </b-tbody>
