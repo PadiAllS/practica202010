@@ -421,10 +421,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             updateMedico: function(key) {
                 var self = this;
                 const params = new URLSearchParams();
-                params.append('nombre', self.medico.nombre);
-                params.append('apellido', self.medico.apellido);
-                params.append('direccion', self.medico.direccion);
-                params.append('localidad', self.medico.localidad);
+                params.append('nombre', self.medico.nombre.toUpperCase());
+                params.append('apellido', self.medico.apellido.toUpperCase());
+                params.append('direccion', self.medico.direccion.toUpperCase());
+                params.append('localidad', self.medico.localidad.toUpperCase());
                 params.append('codigo_postal', self.medico.codigo_postal);
                 params.append('telefono', self.medico.telefono);
                 params.append('celular', self.medico.celular);

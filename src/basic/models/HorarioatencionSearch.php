@@ -46,7 +46,7 @@ class HorarioatencionSearch extends Horarioatencion
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => 4]
+            // 'pagination' => ['pageSize' => 4]
         ]);
 
         $this->load($params,'');

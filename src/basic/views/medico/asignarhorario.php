@@ -188,6 +188,15 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         console.log(response.data);
                         console.log("Se obtuvo todos los medicos");
                         self.medicos = response.data;
+                        self.medicos.sort((a, b) => {
+                            if (a.dia < b.dia){
+                                return -1;
+                            }
+                            if (a.dia > b.dia){
+                                return 1;
+                            }
+                            return 0;
+                        })
                     })
                     .catch(function(error) {
                         // handle error

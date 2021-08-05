@@ -376,7 +376,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             // operaciones con tabla pacientes
             getPacientes: function() {
                 var self = this;
-                axios.get('/apiv1/paciente?page=' + self.currentPage, {
+                axios.get('/apiv1/paciente', {
                     params: self.filterxPaciente
                 })
                     .then(function(response) {
@@ -384,6 +384,17 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         console.log(response.data);
                         console.log("Se obtuvo todos los pacientes");
                         self.pacientes = response.data;
+                        self.pacientes.sort((a, b) => {
+                            let apellidoA = a.apellido.toUpperCase();
+                            let apellidoB = b.apellido.toUpperCase();
+                            if (apellidoA < apellidoB){
+                                return -1;
+                            }
+                            if (apellidoA > apellidoB){
+                                return 1;
+                            }
+                            return 0;
+                        })
                     })
                     .catch(function(error) {
                         // handle error
