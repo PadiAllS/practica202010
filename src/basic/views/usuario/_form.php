@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="usuario-form">
 
-    
+
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
-    <div class="form-group">
+    <div class="form-group ">
         <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
     </div>
 

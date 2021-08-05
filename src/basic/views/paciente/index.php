@@ -12,7 +12,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 <b-container fluid id="app" class="bg-info bv-example-row  text-center text-light">
     <div class="mb-4 p-3 bg-dark">
         <b-row>
-            <b-col font-scale='1'>git
+            <b-col font-scale='1'>
                 <h1>{{msg}}
                     <b-icon icon="card-checklist" animation="throb" font-scale="1" class="rounded-circle  p-2" variant="light"></b-icon>
                 </h1>
@@ -204,9 +204,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                 <input v-if="paciente" type="checkbox" :id="pat.nombre" v-model="patologias[i].estado">
                                             </li>
                                         </ul>
-                                        <legend>Patologias del paciente</legend>
-                                        <div v-for="pat in paciente.patologias">
-                                            <span>{{pat.nombre}} -</span>
+                                        <div v-if="!isNewRecord">
+                                            <legend>Patologias del paciente :</legend>
+                                            <div v-for="pato in paciente.patologias">
+                                                <label>- {{pato.nombre}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -307,7 +309,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 patologias: [],
                 patologia: {},
                 filter: {},
-                arr: ['a', 'b', 'Z', 'Aa', 'AA'],
                 errors: {},
                 isNewRecord: true,
                 currentPage: 1,
@@ -358,12 +359,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 }
                 return allErrors;
             },
-            // orderObraSocial: function(order) {
-            //     var order = this.getObrasociales;
-            //     for (var i = 0; i < order.length; i++) {
-            //         order[i].sort() = order[i];
-            //     }
-            // },
+
             getObrasociales: function() {
                 var self = this;
                 axios.get('/apiv1/obrasocial?page=' + self.currentPage, {
