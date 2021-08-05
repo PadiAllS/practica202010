@@ -24,32 +24,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-
-    <p>
-        <b-button @click="showModal=true" type='button' block variant="primary">Administrar Horarios</button>
-    </p>
-
-    <div class="form-group">
-        <label for="medico">Elija un medico</label>
-        <select class="form-control" v-model=medico.id_medico @change="getMedico" v-on:crange="getMedicoHorarioAtencion()" v-model=filterxhorario.medico_id>
-            <option v-for="medic in medicos" :value="medic.id_medico">
-                {{medic.apellido}}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group" v-if="medico.especialidad">
-        <h4>Especialidad: {{ medico.especialidad.nombre }}</h4>
-    </div>
-
-    <p>
-        <b-button @click="showModal1=true" type='button' block variant="primary">Asignar Horario</button>
-    </p>
-
-    <b-modal v-model="showModal" title="Horarios de Atención" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" size="xl" id="my-modal">
-        <div container>
-            <form action="">
-            <div class="row">
+    
+    <!-- Comienza el modal -->
+    <b-modal v-model="showModal" title="Horarios de Atención" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
+    <div class="row">
+        <form action="">
                 <div class="col md-4">
                     <div class="form-group">
                         <label for="dia">Día de la Semana</label>
@@ -73,141 +52,70 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     </div>
                 </div>
             </div>
-
-                <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button>
-                <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-                <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioAtencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button>
-            </form>
-
-            <template>
-                <div>
-                    <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-                        <b-thead head-variant="dark">
-                            <template>
-                                <b-tr>
-                                    <!-- <b-th>Id</b-th> -->
-                                    <b-th>Dia</b-th>
-                                    <b-th>Desde</b-th>
-                                    <b-th>Hasta</b-th>
-                                    <b-th>Opciones</b-th>
-                                </b-tr>
-                            </template>
-                            <template>
-                                <b-tr>
-                                    <!-- <b-td>
-                                        <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.id_horarioAtencion">
-                                    </b-td> -->
-                                    <b-td>
-                                        <input v-on:change="getHorariosatencion()" class="form-control" v-model="filter.dia">
-                                    </b-td>
-                                    <b-td>
-                                        <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
-                                    </b-td>
-                                    <b-td>
-                                        <!-- <input v-on:change="getEspecialidades()" class="form-control" v-model="filter.detalle"> -->
-                                    </b-td>
-                                    <b-td>
-                                        <b-container>
-                                            <b-row class="justify-content-md-center">
-                                                <b-row class="justify-content-md-center">
-                                                    <!-- <button @click="showModal=true" type='button' class="btn btn-primary">Nueva Especialidad</button> -->
-                                                </b-row>
-                                            </b-row>
-                                        </b-container>
-                                    </b-td>
-                                </b-tr>
-                            </template>
-                        </b-thead>
-                        <template>
-                            <b-tbody table-variant="warning">
-                                <b-tr v-for="(horario,key) in horarios" v-bind:key="horario.id_horarioAtencion">
-                                    <!-- <b-td scope="row">{{horario.id_horarioAtencion}}</b-td> -->
-                                    <b-td>{{horario.dia}}</b-td>
-                                    <b-td>{{horario.deste}}</b-td>
-                                    <b-td>{{horario.hasta}}</b-td>
-                                    <b-td>
-                                        <button v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button>
-                                        <button v-on:click="deleteHorarioatencion(horario.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button>
-                                    </b-td>
-                                </b-tr>
-                            </b-tbody>
-                        </template>
-                    </b-table>
-                        <b-container class="m-3">
-                            <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
-                        </b-container>
-                </div>
-            </template>
-        </div>
-
-
-        <template v-slot:modal-footer="{}">
-            <!-- <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button> -->
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <!-- <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioatencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button> -->
-
-        </template>
-    </b-modal>
-    <!-- Termina el primer modal -->
-
-    <!-- Segundo Modal -->
-    <b-modal v-model="showModal1" title="Asignar Horario" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" id="my-modal">
-        <form action="">
-            <div class="form-group">
-                <label for="medico">Elija un horario</label>
-                <select class="form-control" v-model="medicoHorario.horario_atencion_id">
-                    <option v-for="hora in horarios" :value="hora.id_horarioAtencion">
-                        {{hora.dia}} - {{hora.deste}} - {{hora.hasta}}
-                    </option>
-                </select>
-            </div>
-
         </form>
 
+
         <template v-slot:modal-footer="{ok, cancel, hide}">
-            <button v-if="isNewRecord" @click="addMedicoHorarioAtencion()" type="button" class="btn btn-primary m-3">Crear</button>
-            <!-- <button v-if="!isNewRecord" @click="isNewRecord = !isNewRecord" v-on:click="especialidad={}" type="button" class="btn btn-success m-3">Nuevo</button> -->
-            <!-- <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioatencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button> -->
+            <button v-if="isNewRecord" @click="addHorarioatencion()" type="button" class="btn btn-primary m-3">Crear</button>
+            
+            <button v-if="!isNewRecord" @click="updateHorarioatencion(horarioAtencion.id_horarioAtencion)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>
-
     </b-modal>
-    
-    <!-- Termina el modal  -->
+    <!-- Termina el modal -->
     <p>
         <template>
-            <div :key="mykey">
+            <div>
                 <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
                     <b-thead head-variant="dark">
                         <template>
                             <b-tr>
-                                <b-th>Id</b-th>
                                 <b-th>Día</b-th>
                                 <b-th>Desde</b-th>
                                 <b-th>Hasta</b-th>
                                 <b-th>Opciones</b-th>
                             </b-tr>
-                            <div id="app">
                         </template>
                         <template>
-
+                            <b-tr>
+                                <b-td>
+                                    <input v-on:change="getHorarioAtencion()" class="form-control" v-model="filter.id_horarioAtencion">
+                                </b-td>
+                                <b-td>
+                                    
+                                </b-td>
+                                <b-td>
+                                    
+                                </b-td>
+                                <b-td>
+                                    <b-container>
+                                        <b-row class="justify-content-md-center">
+                                            <b-row class="justify-content-md-center">
+                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo horario</button>
+                                            </b-row>
+                                        </b-row>
+                                    </b-container>
+                                </b-td>
+                            </b-tr>
                         </template>
                     </b-thead>
-                    <b-tbody table-variant="warning" v-if='medico.id_medico != medicoHorario.medico_id'>
-                        <b-tr v-for="hora in medico.horarioatencions" :key="medico.horarioatencions.id_horarioAtencion">
-                        <!-- <b-tr v-for="hora in filtroHorariosxMedico"> -->
-                            <b-td scope="row">{{hora.id_horarioAtencion}}</b-td>
-                            <b-td>{{hora.dia}}</b-td>
-                            <b-td>{{hora.deste}}</b-td>
-                            <b-td>{{hora.hasta}}</b-td>
-                            <b-td>
-                                <!-- <button @click="showModal=true" v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button> -->
-                                <button v-on:click="deleteMedicoHorarioatencion(medico.id_medico,hora.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button>
-                            </b-td>
-                        </b-tr>
-                    </b-tbody>
+                    <template>
+                        <b-tbody table-variant="warning">
+                            <b-tr v-for="(hora,key) in horarios" v-bind:key="hora.id_horarioAtencion">
+                                <b-td scope="row">{{hora.dia}}</b-td>
+                                <b-td>{{hora.deste}}</b-td>
+                                <b-td>{{hora.hasta}}</b-td>
+                                <b-td>
+                                    <button @click="showModal=true" v-on:click="editHorarioatencion(key)" type="button" class="btn btn-success">Editar</button>
+                                    <button v-on:click="deleteHorarioatencion(hora.id_horarioAtencion)" type="button" class="btn btn-danger">Borrar</button>
+                                </b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </template>
                     </b-table>
-                    
+                    <b-container class="m-3">
+                        <b-pagination v-model="currentPage" :total-rows="pagination.total" :per-page="pagination.perPage" aria-controls="my-table"></b-pagination>
+                    </b-container>
             </div>
         </template>
     </p>
@@ -219,27 +127,17 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         el: "#app",
         data: function() {
             return {
-                mykey: 0,
-                msg: "HORARIOS DE ATENCION",
+                msg: "Horarios de Atención",
                 dias: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'],
-                horarios: [], //tabla horariosatencion de todos los medicos
-                horarioAtencion: {}, //nuevo horario de la tabla horarioatencion
-                medicos: [], //todos los medicos
-                medico: {}, //el medico seleccionado
-                medicoHorario: {}, //nuevo horario de la tabla medicohorarioatencion
-                medicoHoraioAtencion: [], //todos las relaciones medico-horario
-                //horarioxMedico: {}, //lista los datos de un medico (especialidad y horariosatencion)
-                filterxMedico: {}, //filtra los medicos
-                filter: {}, // filtra los horariosatencion
-                filterxhorario: [], //filtrar hoarios por medicos
-                filtroHorarioxMedico: [],
+                horarios: [],
+                horarioAtencion: {},
+                filter: {},
                 errors: {},
                 isNewRecord: true,
                 currentPage: 1,
                 pagination: {},
                 visible: true,
                 showModal: false,
-                showModal1: false,
                 headerBgVariant: 'dark',
                 headerTextVariant: 'warning',
                 bodyBgVariant: 'info',
@@ -252,24 +150,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             }
         },
         mounted() {
-            this.getHorariosatencion();
-            this.getMedicos();
-            this.getMedicoHorarioAtencion();
+            this.getHorarioatencion();
         },
         watch: {
             currentPage: function() {
-                this.getHorariosatencion();
-                
-            }
-
-        },
-
-        computed: {
-            filtroHorariosxMedico() {
-                // if (this.medico.id_medico != null) 
-                return this.medicoHoraioAtencion.filter(mHAtencion => {
-                    return this.mHAtencion.medico_id != this.medico.id_medico;
-                })
+                this.getHorarioatencion();
             }
         },
         methods: {
@@ -279,135 +164,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     allErrors[errors[i].field] = errors[i].message;
                 }
                 return allErrors;
-            },
-
-            //operaciones tabla medicos
-
-            getMedicos: function() {
-                var self = this;
-                axios.get('/apiv1/medico?page=' + self.currentPage, {
-                        params: self.filterxMedico
-                    })
-                    .then(function(response) {
-                        // handle success
-                        console.log(response.data);
-                        console.log("Se obtuvo todos los medicos");
-                        self.medicos = response.data;
-                    })
-                    .catch(function(error) {
-                        // handle error
-                        self.errors = self.normalizeErrors(error.response.data);
-                        console.log(self.errors);
-                    })
-                    .then(function() {
-                        // always executed
-                    });
-            },
-            getMedico: function() {
-                var self = this;
-                axios.get('/apiv1/medico/' + self.medico.id_medico, )
-                    .then(function(response) {
-                        // handle success
-                        console.log(response.data);
-                        console.log("Se trajo al medico");
-                        self.medico = response.data;
-                        //self.mykey += 1;
-                    })
-                    .catch(function(error) {
-                        // handle error
-                        self.errors = self.normalizeErrors(error.response.data);
-                        console.log(self.errors);
-                    })
-                    .then(function() {
-                        // always executed
-                    });
-            },
-
-            //operaciones tabla MedicoHorarioAtencion
-
-            getMedicoHorarioAtencion: function() {
-                var self = this;
-                axios.get('/apiv1/medicohorarioatencion?page=' + self.currentPage, {
-                        params: self.filterxhorario
-                    })
-                    .then(function(response) {
-                        // handle success
-                        console.log(response.data);
-                        console.log("Se obtuvo todos los horarios por medicos");
-                        self.medicoHoraioAtencion = response.data;
-                    })
-                    .catch(function(error) {
-                        // handle error
-                        self.errors = self.normalizeErrors(error.response.data);
-                        console.log(self.errors);
-                    })
-                    .then(function() {
-                        // always executed
-                    });
-            },
-
-            addMedicoHorarioAtencion: function() {
-                var self = this;
-                self.medicoHorario.medico_id = self.medico.id_medico;
-                axios.post('/apiv1/medicohorarioatencion', self.medicoHorario)
-                    .then(function(response) {
-                        // handle success
-                        console.log(response.data);
-                        //self.getMedicoHorariosAtencion();
-                        // self.posts.unshift(response.data);
-                        self.medicohorario = {};
-                        self.getMedicoHorarioAtencion();
-                        self.mykey += 1;
-                        self.showModal1 = false;
-
-                    })
-                    .catch(function(error) {
-                        // handle error
-                        self.errors = self.normalizeErrors(error.response.data);
-                        console.log(self.errors);
-
-                    })
-                    .then(function() {
-                        // always executed
-                    });
 
             },
 
-            deleteMedicoHorarioatencion: function(mid,id) {
-                Swal.fire({
-                    title: 'Esta seguro que desea borrar el registro ' + id + '?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    showConfirmButton: true,
-                    confirmButtonText: 'Si borrar!',
-                    cancelButtonText: 'No, regresar.',
-                }).then((result) => {
-                    if (result.value) {
-                        var self = this;
-                        axios.delete('/apiv1/medicohorarioatencion/' + mid + ',' + id)
-                            .then(function(response) {
-                                // handle success
-                                console.log("borra medicohorarioatencion id: " + mid + id);
-                                console.log(response.data);
-                                self.getMedico();
-                            })
-                            .catch(function(error) {
-                                // handle error
-                                console.log(error);
-                            })
-                            .then(function() {
-                                // always executed
-                            });
-                        Swal.fire({
-                            title: 'Se ha borrado con exito',
-                            icon: 'success',
-                        })
-                    }
-                }, );
-            },
-
-            //operaciones tabla horarioAtencion
-            getHorariosatencion: function() {
+            getHorarioatencion: function() {
                 var self = this;
                 axios.get('/apiv1/horarioatencion?page=' + self.currentPage, {
                         params: self.filter
@@ -447,7 +207,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                 // handle success
                                 console.log("borra horarioatencion id: " + id);
                                 console.log(response.data);
-                                self.getHorariosatencion();
+                                self.getHorarioatencion();
                             })
                             .catch(function(error) {
                                 // handle error
@@ -477,10 +237,16 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
-                        self.getHorariosatencion();
+                        self.getHorarioatencion();
                         // self.posts.unshift(response.data);
                         self.horarioAtencion = {};
                         self.showModal = false;
+                        Swal.fire({
+                            title: 'Se creo el registro correctamente',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                        })
                     })
                     .catch(function(error) {
                         // handle error
@@ -491,12 +257,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
-                Swal.fire({
-                    title: 'Se creo el registro correctamente',
-                    icon: 'success',
-                    showConfirmButton: true,
-                    confirmButtonText: 'Aceptar',
-                })
             },
             updateHorarioatencion: function(key) {
                 var self = this;
@@ -508,7 +268,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
-                        self.getHorariosatencion();
+                        self.getHorarioatencion();
                         self.horarioAtencion = {};
                         self.isNewRecord = true;
                         self.showModal = false;

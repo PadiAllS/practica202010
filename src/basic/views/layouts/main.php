@@ -51,6 +51,7 @@ use app\assets\AppAsset;
                         ['label' => 'Especialidad', 'url' => ['/especialidad']],
                         ['label' => 'Medico', 'url' => ['/medico']],
                         ['label' => 'Horarios', 'url' => ['/horarioatencion']],
+                        ['label' => 'Asignar Horarios', 'url' => ['/medico/asignarhorario']],
                     ],
                     "options" => ["class" => "navbar-nav"],
                 ]),
@@ -61,6 +62,7 @@ use app\assets\AppAsset;
                         ['label' => 'Paciente', 'url' => ['/paciente']],
                         ['label' => 'ObraSocial', 'url' => ['/obrasocial']],
                         ['label' => 'Patologia', 'url' => ['/patologia']],
+                        
                     ],
                     "options" => ["class" => "navbar-nav"],
                 ]),

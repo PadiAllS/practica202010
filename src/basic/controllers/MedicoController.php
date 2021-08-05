@@ -56,6 +56,18 @@ class MedicoController extends Controller
         ]);
     }
 
+    public function actionAsignarhorario()
+    {
+        $searchModel = new MedicoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('asignarhorario', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /**
      * Displays a single Medico model.
      * @param integer $id
