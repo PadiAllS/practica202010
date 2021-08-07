@@ -57,6 +57,18 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
+                                                    <label for="direccion">Direccion</label>
+                                                    <input v-model="paciente.direccion" type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese Direccion" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.direccion">{{ errors.direccion }}</span>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                            <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="localidad">Localidad</label>
                                                         <input v-model="paciente.localidad" type="text" name="localidad" id="localidad" class="form-control" placeholder="Ingrese Localidad" aria-describedby="helpId">
@@ -64,56 +76,21 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                         <span class="text-danger" v-if="errors.localidad">{{ errors.apellido }}</span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group text-center">
-                                            <div class="row">
-                                                <div class="col-12 col-md-4">
-                                                    <label for="sexo">Sexo</label>
-                                                    <b-form-select v-model="paciente.sexo" :options="sexos" id="sexo"></b-form-select>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group text-center">
-                                                        <label for="fecha_nacimiento">Fecha-Nacimiento</label>
-                                                        <input v-model="paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
-                                                        <small id="titlehelpId" class="text-muted"></small>
-                                                        <!-- <b-form-datepicker v-model="paciente.fecha_nacimiento" placeholder="Click aqui para seleccionar fecha" id="datepicker-valid"></b-form-datepicker> -->
-                                                        <!-- <input v-model=" paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese su fecha de nacimiento" aria-describedby="helpId"> -->
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.fecha_nacimiento">{{ errors.fecha_nacimiento }}</span>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group text-center">
-                                                        <label for="obrasocial">Selecciona la Obra-Social</label>
-                                                        <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
-                                                            <option :value="pac.id" v-for="pac in obrasocial">
-                                                                {{pac.nombre}}
-                                                            </option>
-                                                        </select>
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-5 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <label for="cod_post">Cod Postal</label>
                                                     <input v-model="paciente.codigo_postal" type="text" name="cod_p" id="cod_p" class="form-control" placeholder="Cod-Postal" aria-describedby="helpId">
                                                     <small id="bodyhelpId" class="text-muted"></small>
                                                     <span class="text-danger" v-if="errors.codigo_postal">{{ errors.mail }}</span>
                                                 </div>
 
-                                                <div class="col-3 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="tipo_documento">Tipo DOC</label>
                                                         <b-form-select v-model="paciente.tipo_documento" ref='selected' :options="docs" id="doc"></b-form-select>
                                                         <div class="mt-3"><strong>{{ paciente.tipo_docomento}}</strong></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-4 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="nro_doc">Num DOC</label>
                                                         <input v-model="paciente.nro_documento" type="text" name="nro_doc" id="nro_doc" class="form-control" placeholder="Ingrese num de documento" aria-describedby="helpId">
@@ -126,10 +103,40 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-md-4">
-                                                    <label for="direccion">Direccion</label>
-                                                    <input v-model="paciente.direccion" type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese Direccion" aria-describedby="helpId">
+                                                    <label for="sexo">Sexo</label>
+                                                    <b-form-select v-model="paciente.sexo" :options="sexos" id="sexo"></b-form-select>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="fecha_nacimiento">Fecha-Nacimiento</label>
+                                                        <input v-model="paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
+                                                        <small id="titlehelpId" class="text-muted"></small>
+                                                        <small id="bodyhelpId" class="text-muted"></small>
+                                                        <span class="text-danger" v-if="errors.fecha_nacimiento">{{ errors.fecha_nacimiento }}</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="obrasocial">Selecciona la Obra-Social</label>
+                                                        <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
+                                                            <option :value="pac.id" v-for="pac in obrasocial">
+                                                                {{pac.nombre}}
+                                                            </option>
+                                                        </select>
+                                                        <small id="bodyhelpId" class="text-muted"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-4 col-md-4">
+                                                    <label for="sexo">Email</label>
+                                                    <input v-model="paciente.mail" type="text" name="mail" id="mail" class="form-control" placeholder="Ingrese su email" aria-describedby="helpId">
                                                     <small id="bodyhelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.direccion">{{ errors.direccion }}</span>
+                                                    <span class="text-danger" v-if="errors.mail">{{ errors.mail }}</span>
                                                 </div>
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-group">
@@ -149,7 +156,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-12 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="sexo">Nombre y Apellido Materno</label>
                                                         <input v-model="paciente.ape_nomb_materno" type="text" name="nom_mat" id="nom_mat" class="form-control" placeholder="Nombre y Apellido Materno" aria-describedby="helpId">
@@ -157,7 +164,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                         <span class="text-danger" v-if="errors.ape_nomb_materno">{{ errors.nom_ape_mat }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="sexo">Nombre y Apellido Paterno</label>
                                                         <input v-model="paciente.ape_nomb_paterno" type="text" name="nom_pat" id="nom_pat" class="form-control" placeholder="Nombre y Apellido Paterno" aria-describedby="helpId">
@@ -166,7 +173,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6 col-md-4">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="sexo">Nombre del responsable</label>
                                                         <input v-model="paciente.responsable_nombre" type="text" name="responsable_nombre" id="responsable_nombre" class="form-control" placeholder="Ingrese su nombre" aria-describedby="helpId">
@@ -174,10 +181,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                         <span class="text-danger" v-if="errors.responsable_nombre">{{ errors.responsable_nombre }}</span>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6 col-md-6">
+                                                <div class="col-3 col-md-3">
                                                     <div class="form-group">
                                                         <label for="Tel-Resp">Tel- Responsable</label>
                                                         <input v-model="paciente.responsable_telefono" type="text" name="responsable_telefono" id="responsable_telefono" class="form-control" placeholder="Ingrese su Tel" aria-describedby="helpId">
@@ -185,12 +189,11 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                         <span class="text-danger" v-if="errors.responsable_telefono">{{ errors.responsable_telef }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 col-md-6">
-                                                    <label for="sexo">Email</label>
-                                                    <input v-model="paciente.mail" type="text" name="mail" id="mail" class="form-control" placeholder="Ingrese su email" aria-describedby="helpId">
-                                                    <small id="bodyhelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.mail">{{ errors.mail }}</span>
-                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                
+                                                
                                             </div>
 
                                         </div>
@@ -237,8 +240,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                         <b-tr>
                                             <b-th>Nombre y Apellido</b-th>
                                             <b-th>Dni</b-th>
-                                            <b-th>Tel</b-th>
                                             <b-th>Celular</b-th>
+                                            <b-th>Tel. responsable</b-th>
                                             <b-th>Opciones</b-th>
                                         </b-tr>
                                         <div id="app">
@@ -274,8 +277,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                         <b-tr v-for="(pac,key) in pacientes" v-bind:key="pac.id_paciente">
                                             <b-td>{{pac.nombre}} {{pac.apellido}}</b-td>
                                             <b-td>{{pac.nro_documento}}</b-td>
-                                            <b-td>{{pac.telefono}}</b-td>
                                             <b-td>{{pac.celular}}</b-td>
+                                            <b-td>{{pac.responsable_telefono}}</b-td>
                                             <b-td>
                                                 <button @click="showModal=true" v-on:click="editPacientes(key)" type="button" class="btn btn-primary">Editar</button>
                                                 <button v-on:click="deletePacientes(pac.id_paciente)" type="button" class="btn btn-danger">Borrar</button>

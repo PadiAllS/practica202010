@@ -4,6 +4,7 @@
 //$this->registerCssFile("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css",['position'=>$this::POS_HEAD]);
 $this->registerCssFile("//unpkg.com/bootstrap/dist/css/bootstrap.min.css", ['position' => $this::POS_HEAD]);
 $this->registerCssFile("//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css", ['position' => $this::POS_HEAD]);
+$this->registerCssFile("https://unpkg.com/vue-select@latest/dist/vue-select.css", ['position' => $this::POS_HEAD]);
 
 $this->registerJsFile("https://cdn.jsdelivr.net/npm/vue/dist/vue.js", ['position' => $this::POS_HEAD]);
 $this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js", ['position' => $this::POS_HEAD]);$this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js", ['position' => $this::POS_HEAD]);
@@ -13,6 +14,7 @@ $this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue
 
 $this->registerJsFile("https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js", ['position' => $this::POS_HEAD]);
 $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' => $this::POS_HEAD]);
+$this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $this::POS_HEAD]);
 ?>
 
 <b-container fluid id="app" class="bg-info bv-example-row  text-center text-light">
@@ -27,12 +29,15 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
     </div>
 
     <div class="form-group">
-        <label for="medico">Elija un paciente</label>
-        <select class="form-control" v-model=paciente.id_paciente @change="getPaciente" v-model=filterxhorario.paciente_id>
-            <option v-for="paci in pacientes" :value="paci.id_paciente">
-                Sr/a: {{ paci.apellido}} {{paci.nombre}}
-            </option>
-        </select>
+        <label for="paciente">Elija un paciente</label>
+        <v-select
+                class="form-control"
+                @change="getPaciente"
+                v-model="paciente.id_paciente"
+                :options="pacientes"
+                :reduce="paciente => paciente.id_paciente"
+                label="apellido"
+        />
     </div>
 
     <div class="form-group">
@@ -154,6 +159,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
     console.log(today);
 
     var app = new Vue({
+        components:{
+            'v-select': VueSelect.VueSelect,
+        },
 
         el: "#app",
         data: function() {
