@@ -168,7 +168,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <div class="form-group">
                         <label for="especialidad">Especialidad</label>
                         <select class="form-control" v-model="medico.especialidad_id">
-                            <option v-for="espec in especialidades" :value="espec.id_especialidad">
+                            <option v-for="espec in especialidades" :value="medico.especialidad_id">
                                 {{espec.nombre}}
                             </option>
                         </select>
@@ -295,6 +295,12 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             this.getEspecialidades();
         },
         watch: {
+            showModal(){
+                if(!this.showModal){
+                    this.medico = {};
+                    this.errors = [];
+                }
+            },
             currentPage: function() {
                 this.getMedicos();
             }
