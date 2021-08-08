@@ -11,7 +11,7 @@
 Descrición del proyecto:
 -------------------
 
-Aplicación Web para uso y gestión de información clinica.
+Aplicación Web para uso y gestión de información de turnos e historias clinicas.
 
 Estructura de directorios
 -------------------
@@ -43,16 +43,11 @@ Ejecutar y levantar el repositorio.
  ```
    $ practica202010/ docker-compose up -d
  ``` 
-Ejecutar por consola **start-project.sh** encontrado en la carpeta /bin.
-Estos comando instalaran la estructura del proyecto yii2 en nuestro host. 
-```
-   $ TPFinal/bin/start-project.sh
- ``` 
 
 Ejecutar por consola **first-start.sh** encontrado en la carpeta /bin.
 Estos comandos actualizan el composer y corrige los permisos a carpetas importantes para la aplicación. También ejecutan las migraciones de las tablas de la base de datos.
 ```
-   $ TPFinal/bin/first_start.sh
+   $ sh /bin/first_start.sh
 ``` 
  Acceder al sitio desde la url : **localhost:8000** - 
  Usuario: **admin** pass: **123456**
