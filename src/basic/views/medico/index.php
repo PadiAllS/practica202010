@@ -24,10 +24,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             </b-col>
         </b-row>
     </div>
-
-
-
-
     <!-- Comienza el modal -->
     <b-modal v-model="showModal" title="Medicos" :header-bg-variant="headerBgVariant" :header-text-variant="headerTextVariant" :body-bg-variant="bodyBgVariant" :body-text-variant="bodyTextVariant" :footer-bg-variant="footerBgVariant" :footer-text-variant="footerTextVariant" size="xl" id="my-modal">
 
@@ -93,6 +89,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <div class="form-group">
                         <label for="sexo">Sexo</label>
                         <b-form-select v-model="medico.sexo" :options="sexo"></b-form-select>
+
                         <!-- <div class="mt-3"><strong>{{ medico.sexo }}</strong></div> -->
                         <small id="bodyhelpId" class="text-muted"></small>
                         <span class="text-danger" v-if="errors.sexo">{{ errors.sexo }}</span>
@@ -168,7 +165,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <div class="form-group">
                         <label for="especialidad">Especialidad</label>
                         <select class="form-control" v-model="medico.especialidad_id">
-                            <option v-for="espec in especialidades" :value="medico.especialidad_id">
+                            <option v-for="espec in especialidades" :value="espec.id_especialidad">
                                 {{espec.nombre}}
                             </option>
                         </select>
@@ -202,10 +199,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <b-thead head-variant="dark">
                         <template>
                             <b-tr>
-                                <b-th>Id</b-th>
                                 <b-th>Nombre</b-th>
                                 <b-th>Apellido</b-th>
-                                <b-th>Especialidad</b-th>
+                                <b-th>Matricula</b-th>
                                 <b-th>Opciones</b-th>
                             </b-tr>
                             <div id="app">
@@ -213,16 +209,13 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         <template>
                             <b-tr>
                                 <b-td>
-                                    <input v-on:change="getMedicos()" class="form-control" v-model="filter.id_medico">
-                                </b-td>
-                                <b-td>
                                     <input v-on:change="getMedicos()" class="form-control" v-model="filter.nombre">
                                 </b-td>
                                 <b-td>
                                     <input v-on:change="getMedicos()" class="form-control" v-model="filter.apellido">
                                 </b-td>
                                 <b-td>
-
+                                    <input v-on:change="getMedicos()" class="form-control" v-model="filter.matricula">
                                 </b-td>
 
                                 <b-td>
@@ -240,10 +233,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     <template>
                         <b-tbody table-variant="warning">
                             <b-tr v-for="(medic,key) in medicos" v-bind:key="medic.id_medico">
-                                <b-td scope="row">{{medic.id_medico}}</b-td>
                                 <b-td>{{medic.nombre}}</b-td>
                                 <b-td>{{medic.apellido}}</b-td>
-                                <b-td>{{medic.especialidad.nombre}}</b-td>
+                                <b-td>{{medic.matricula}}</b-td>
                                 <b-td>
                                     <button @click="showModal=true" v-on:click="editMedico(key)" type="button" class="btn btn-success">Editar</button>
                                     <button v-on:click="deleteMedico(medic.id_medico)" type="button" class="btn btn-danger">Borrar</button>
@@ -295,12 +287,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             this.getEspecialidades();
         },
         watch: {
-            showModal(){
-                if(!this.showModal){
-                    this.medico = {};
-                    this.errors = [];
-                }
-            },
             currentPage: function() {
                 this.getMedicos();
             }
@@ -317,7 +303,9 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
             getEspecialidades: function() {
                 var self = this;
-                axios.get('/apiv1/especialidad')
+                axios.get('/apiv1/especialidad?page=' + self.currentPage, {
+                        params: self.filter
+                    })
                     .then(function(response) {
                         // handle success
                         console.log(response.data);

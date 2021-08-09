@@ -61,21 +61,11 @@ class MedicoSearch extends Medico
         $query->andFilterWhere([
             'id_medico' => $this->id_medico,
             'especialidad_id' => $this->especialidad_id,
-            'fecha_nacimiento' => $this->fecha_nacimiento,
-            'duracion_consulta' => $this->duracion_consulta,
+            'matricula' => $this->matricula,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'apellido', $this->apellido])
-            ->andFilterWhere(['like', 'direccion', $this->direccion])
-            ->andFilterWhere(['like', 'localidad', $this->localidad])
-            ->andFilterWhere(['like', 'codigo_postal', $this->codigo_postal])
-            ->andFilterWhere(['like', 'telefono', $this->telefono])
-            ->andFilterWhere(['like', 'celular', $this->celular])
-            ->andFilterWhere(['like', 'mail', $this->mail])
-            ->andFilterWhere(['like', 'sexo', $this->sexo])
-            ->andFilterWhere(['like', 'tipo_documento', $this->tipo_documento])
-            ->andFilterWhere(['like', 'nro_documento', $this->nro_documento])
             ->andFilterWhere(['like', 'matricula', $this->matricula]);
 
         return $dataProvider;

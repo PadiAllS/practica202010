@@ -49,7 +49,7 @@ class MedicoSearch extends \app\modules\Apiv1\models\Medico
             'pagination' => ['pageSize' => 5]
         ]);
 
-        $this->load($params,'');
+        $this->load($params, '');
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -61,10 +61,12 @@ class MedicoSearch extends \app\modules\Apiv1\models\Medico
         $query->andFilterWhere([
             'id_medico' => $this->id_medico,
             'especialidad_id' => $this->especialidad_id,
+            'matricula' => $this->matricula,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'apellido', $this->apellido]);
+            ->andFilterWhere(['like', 'apellido', $this->apellido])
+            ->andFilterWhere(['like', 'matricula', $this->matricula]);
 
         return $dataProvider;
     }

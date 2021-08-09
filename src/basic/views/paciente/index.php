@@ -39,164 +39,163 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                             <div class="tab-content">
                                 <!-- pestaña datos paciente -->
                                 <div class="tab-pane  active" id="datos">
-                                    <form action="">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-md-4">
-                                                    <label for="nombre">Nombre</label>
-                                                    <input v-model="paciente.nombre" type="text" ref="focusButton" name="nombre" id="nombre" class="form-control" placeholder="Ingrese nombre del paciente" aria-describedby="helpId">
-                                                    <small id="titlehelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.nombre"> {{ errors.nombre }} </span>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="apellido">Apellido</label>
-                                                        <input v-model="paciente.apellido" type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingrese Apellido" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.apellido">{{ errors.apellido }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <label for="direccion">Direccion</label>
-                                                    <input v-model="paciente.direccion" type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese Direccion" aria-describedby="helpId">
-                                                    <small id="bodyhelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.direccion">{{ errors.direccion }}</span>
-                                                </div>
-                                                
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-12 col-md-4">
+                                                <label for="nombre">Nombre</label>
+                                                <input v-model="paciente.nombre" type="text" ref="focusButton" name="nombre" id="nombre" class="form-control" placeholder="Ingrese nombre del paciente" aria-describedby="helpId">
+                                                <small id="titlehelpId" class="text-muted"></small>
+                                                <span class="text-danger" v-if="errors.nombre"> {{ errors.nombre }} </span>
                                             </div>
-                                        </div>
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+                                                    <label for="apellido">Apellido</label>
+                                                    <input v-model="paciente.apellido" type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingrese Apellido" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.apellido">{{ errors.apellido }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="direccion">Direccion</label>
+                                                <input v-model="paciente.direccion" type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingrese Direccion" aria-describedby="helpId">
+                                                <small id="bodyhelpId" class="text-muted"></small>
+                                                <span class="text-danger" v-if="errors.direccion">{{ errors.direccion }}</span>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <div class="row">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
                                             <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="localidad">Localidad</label>
-                                                        <input v-model="paciente.localidad" type="text" name="localidad" id="localidad" class="form-control" placeholder="Ingrese Localidad" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.localidad">{{ errors.apellido }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 col-md-3">
-                                                    <label for="cod_post">Cod Postal</label>
-                                                    <input v-model="paciente.codigo_postal" type="text" name="cod_p" id="cod_p" class="form-control" placeholder="Cod-Postal" aria-describedby="helpId">
+                                                <div class="form-group">
+                                                    <label for="localidad">Localidad</label>
+                                                    <input v-model="paciente.localidad" type="text" name="localidad" id="localidad" class="form-control" placeholder="Ingrese Localidad" aria-describedby="helpId">
                                                     <small id="bodyhelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.codigo_postal">{{ errors.mail }}</span>
-                                                </div>
-
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="tipo_documento">Tipo DOC</label>
-                                                        <b-form-select v-model="paciente.tipo_documento" ref='selected' :options="docs" id="doc"></b-form-select>
-                                                        <div class="mt-3"><strong>{{ paciente.tipo_docomento}}</strong></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="nro_doc">Num DOC</label>
-                                                        <input v-model="paciente.nro_documento" type="text" name="nro_doc" id="nro_doc" class="form-control" placeholder="Ingrese num de documento" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.nro_documento">{{ errors.nro_documento }}</span>
-                                                    </div>
+                                                    <span class="text-danger" v-if="errors.localidad">{{ errors.apellido }}</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-md-4">
-                                                    <label for="sexo">Sexo</label>
-                                                    <b-form-select v-model="paciente.sexo" :options="sexos" id="sexo"></b-form-select>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="fecha_nacimiento">Fecha-Nacimiento</label>
-                                                        <input v-model="paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
-                                                        <small id="titlehelpId" class="text-muted"></small>
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.fecha_nacimiento">{{ errors.fecha_nacimiento }}</span>
+                                            <div class="col-3 col-md-3">
+                                                <label for="cod_post">Cod Postal</label>
+                                                <input v-model="paciente.codigo_postal" type="text" name="cod_p" id="cod_p" class="form-control" placeholder="Cod-Postal" aria-describedby="helpId">
+                                                <small id="bodyhelpId" class="text-muted"></small>
+                                                <span class="text-danger" v-if="errors.codigo_postal">{{ errors.mail }}</span>
+                                            </div>
 
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="obrasocial">Selecciona la Obra-Social</label>
-                                                        <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
-                                                            <option :value="pac.id" v-for="pac in obrasocial">
-                                                                {{pac.nombre}}
-                                                            </option>
-                                                        </select>
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                    </div>
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="tipo_documento">Tipo DOC</label>
+                                                    <b-form-select v-model="paciente.tipo_documento" ref='selected' :options="docs" id="doc"></b-form-select>
+                                                    <div class="mt-3"><strong>{{ paciente.tipo_docomento}}</strong></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-4 col-md-4">
-                                                    <label for="sexo">Email</label>
-                                                    <input v-model="paciente.mail" type="text" name="mail" id="mail" class="form-control" placeholder="Ingrese su email" aria-describedby="helpId">
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="nro_doc">Num DOC</label>
+                                                    <input v-model="paciente.nro_documento" type="text" name="nro_doc" id="nro_doc" class="form-control" placeholder="Ingrese num de documento" aria-describedby="helpId">
                                                     <small id="bodyhelpId" class="text-muted"></small>
-                                                    <span class="text-danger" v-if="errors.mail">{{ errors.mail }}</span>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="celular">Celular</label>
-                                                        <input v-model="paciente.celular" type="text" name="celular" id="celular" class="form-control" placeholder="Ingrese num de Cel" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.celular">{{ errors.celular }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="telefono">Telefono</label>
-                                                        <input v-model="paciente.telefono" type="text" name="telefono" id="telefono" class="form-control" placeholder="Ingrese num de Tel" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.detalle">{{ errors.telefono }}
-                                                    </div>
+                                                    <span class="text-danger" v-if="errors.nro_documento">{{ errors.nro_documento }}</span>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="sexo">Nombre y Apellido Materno</label>
-                                                        <input v-model="paciente.ape_nomb_materno" type="text" name="nom_mat" id="nom_mat" class="form-control" placeholder="Nombre y Apellido Materno" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.ape_nomb_materno">{{ errors.nom_ape_mat }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="sexo">Nombre y Apellido Paterno</label>
-                                                        <input v-model="paciente.ape_nomb_paterno" type="text" name="nom_pat" id="nom_pat" class="form-control" placeholder="Nombre y Apellido Paterno" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.ape_nomb_paterno">{{ errors.nom_ape_pat }}</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="sexo">Nombre del responsable</label>
-                                                        <input v-model="paciente.responsable_nombre" type="text" name="responsable_nombre" id="responsable_nombre" class="form-control" placeholder="Ingrese su nombre" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.responsable_nombre">{{ errors.responsable_nombre }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 col-md-3">
-                                                    <div class="form-group">
-                                                        <label for="Tel-Resp">Tel- Responsable</label>
-                                                        <input v-model="paciente.responsable_telefono" type="text" name="responsable_telefono" id="responsable_telefono" class="form-control" placeholder="Ingrese su Tel" aria-describedby="helpId">
-                                                        <small id="bodyhelpId" class="text-muted"></small>
-                                                        <span class="text-danger" v-if="errors.responsable_telefono">{{ errors.responsable_telef }}</span>
-                                                    </div>
-                                                </div>
-
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-12 col-md-4">
+                                                <label for="sexo">Sexo</label>
+                                                <b-form-select v-model="paciente.sexo" :options="sexos" id="sexo"></b-form-select>
                                             </div>
-                                            <div class="row">
-                                                
-                                                
+                                            <div class="col-6 col-md-4">
+                                                <div class="form-group">
+                                                    <label for="fecha_nacimiento">Fecha-Nacimiento</label>
+                                                    <input v-model="paciente.fecha_nacimiento" type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Ingrese fecha de nacimiento" aria-describedby="helpId">
+                                                    <small id="titlehelpId" class="text-muted"></small>
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.fecha_nacimiento">{{ errors.fecha_nacimiento }}</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-4">
+                                                <div class="form-group">
+                                                    <label for="obrasocial">Selecciona la Obra-Social</label>
+                                                    <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
+                                                        <option :value="pac.id" v-for="pac in obrasocial">
+                                                            {{pac.nombre}}
+                                                        </option>
+                                                    </select>
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-4 col-md-4">
+                                                <label for="sexo">Email</label>
+                                                <input v-model="paciente.mail" type="text" name="mail" id="mail" class="form-control" placeholder="Ingrese su email" aria-describedby="helpId">
+                                                <small id="bodyhelpId" class="text-muted"></small>
+                                                <span class="text-danger" v-if="errors.mail">{{ errors.mail }}</span>
+                                            </div>
+                                            <div class="col-6 col-md-4">
+                                                <div class="form-group">
+                                                    <label for="celular">Celular</label>
+                                                    <input v-model="paciente.celular" type="text" name="celular" id="celular" class="form-control" placeholder="Ingrese num de Cel" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.celular">{{ errors.celular }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-4">
+                                                <div class="form-group">
+                                                    <label for="telefono">Telefono</label>
+                                                    <input v-model="paciente.telefono" type="text" name="telefono" id="telefono" class="form-control" placeholder="Ingrese num de Tel" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.detalle">{{ errors.telefono }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="sexo">Nombre y Apellido Materno</label>
+                                                    <input v-model="paciente.ape_nomb_materno" type="text" name="nom_mat" id="nom_mat" class="form-control" placeholder="Nombre y Apellido Materno" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.ape_nomb_materno">{{ errors.nom_ape_mat }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="sexo">Nombre y Apellido Paterno</label>
+                                                    <input v-model="paciente.ape_nomb_paterno" type="text" name="nom_pat" id="nom_pat" class="form-control" placeholder="Nombre y Apellido Paterno" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.ape_nomb_paterno">{{ errors.nom_ape_pat }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="sexo">Nombre del responsable</label>
+                                                    <input v-model="paciente.responsable_nombre" type="text" name="responsable_nombre" id="responsable_nombre" class="form-control" placeholder="Ingrese su nombre" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.responsable_nombre">{{ errors.responsable_nombre }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-3 col-md-3">
+                                                <div class="form-group">
+                                                    <label for="Tel-Resp">Tel- Responsable</label>
+                                                    <input v-model="paciente.responsable_telefono" type="text" name="responsable_telefono" id="responsable_telefono" class="form-control" placeholder="Ingrese su Tel" aria-describedby="helpId">
+                                                    <small id="bodyhelpId" class="text-muted"></small>
+                                                    <span class="text-danger" v-if="errors.responsable_telefono">{{ errors.responsable_telef }}</span>
+                                                </div>
                                             </div>
 
                                         </div>
+                                        <div class="row">
+
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
                                 <!-- pestaña enfermedades paciente -->

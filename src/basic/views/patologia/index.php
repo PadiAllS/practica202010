@@ -43,7 +43,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         </form>
         <template v-slot:modal-footer="{ok, cancel, hide}">
             <button v-if="isNewRecord" @click="addPatologia()" type="button" class="btn btn-primary m-3">Crear</button>
-            
+
             <button v-if="!isNewRecord" @click="updatePatologia(patologia.id)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
         </template>

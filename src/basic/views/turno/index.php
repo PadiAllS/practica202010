@@ -7,7 +7,8 @@ $this->registerCssFile("//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.
 $this->registerCssFile("https://unpkg.com/vue-select@latest/dist/vue-select.css", ['position' => $this::POS_HEAD]);
 
 $this->registerJsFile("https://cdn.jsdelivr.net/npm/vue/dist/vue.js", ['position' => $this::POS_HEAD]);
-$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js", ['position' => $this::POS_HEAD]);$this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js", ['position' => $this::POS_HEAD]);
+$this->registerJsFile("https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js", ['position' => $this::POS_HEAD]);
+$this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js", ['position' => $this::POS_HEAD]);
 
 
 $this->registerJsFile("https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js", ['position' => $this::POS_HEAD]);
@@ -30,19 +31,12 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
 
     <div class="form-group">
         <label for="paciente">Elija un paciente</label>
-        <v-select
-                class="form-control"
-                @change="getPaciente"
-                v-model="paciente.id_paciente"
-                :options="pacientes"
-                :reduce="paciente => paciente.id_paciente"
-                label="apellido"
-        />
+        <v-select class="form-control" @change="getPaciente" v-model="paciente.id_paciente" :options="pacientes" :reduce="paciente => paciente.id_paciente" label="apellido" />
     </div>
 
     <div class="form-group">
         <label for="medico">Elija un medico</label>
-        <select class="form-control" v-model=medico.id_medico @change="getMedico"  v-model=filterxhorario.medico_id>
+        <select class="form-control" v-model=medico.id_medico @change="getMedico" v-model=filterxhorario.medico_id>
             <option v-for="medic in medicos" :value="medic.id_medico">
                 {{medic.apellido}}
             </option>
@@ -64,7 +58,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
         </div>
         <template v-slot:modal-footer="{ok, cancel, hide}">
             <button v-if="isNewRecord" @click="addTurno()" type="button" class="btn btn-primary m-3">Crear</button>
-            
+
         </template>
     </b-modal>
 
@@ -72,94 +66,93 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
 
     <p>
         <template>
-    <div class="row">
+            <div class="row">
 
-        <div class="col-12 col-md-4">
-            <div class="form-group" v-if="medico.especialidad">
-                <h4> Horarios de Atención del Dr. {{ medico.nombre }} {{ medico.apellido }} - Especialidad: {{ medico.especialidad.nombre }}</h4>
-            </div>
-            <div :key="mykey">
-                <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-                    <b-thead head-variant="dark">
-                        <template>
-                            <b-tr>
-                                <b-th>Día</b-th>
-                                <b-th>Desde</b-th>
-                                <b-th>Hasta</b-th>
-                            </b-tr>
-                            <div id="app">
-                        </template>
-                        <template>
+                <div class="col-12 col-md-4">
+                    <div class="form-group" v-if="medico.especialidad">
+                        <h4> Horarios de Atención del Dr. {{ medico.nombre }} {{ medico.apellido }} - Especialidad: {{ medico.especialidad.nombre }}</h4>
+                    </div>
+                    <div :key="mykey">
+                        <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
+                            <b-thead head-variant="dark">
+                                <template>
+                                    <b-tr>
+                                        <b-th>Día</b-th>
+                                        <b-th>Desde</b-th>
+                                        <b-th>Hasta</b-th>
+                                    </b-tr>
+                                    <div id="app">
+                                </template>
+                                <template>
 
-                        </template>
-                    </b-thead>
-                    <template>
-                        <b-tbody table-variant="warning">
-                            <b-tr v-for="hora in medico.horarioatencions" :key="hora.id_horarioAtencion">
-                                <b-td scope="row">{{hora.dia}}</b-td>
-                                <b-td>{{hora.deste}}</b-td>
-                                <b-td>{{hora.hasta}}</b-td>
-                            </b-tr>
-                        </b-tbody>
-                    </template>
-                    </b-table>
-            </div>
-        </div>
+                                </template>
+                            </b-thead>
+                            <template>
+                                <b-tbody table-variant="warning">
+                                    <b-tr v-for="hora in medico.horarioatencions" :key="hora.id_horarioAtencion">
+                                        <b-td scope="row">{{hora.dia}}</b-td>
+                                        <b-td>{{hora.deste}}</b-td>
+                                        <b-td>{{hora.hasta}}</b-td>
+                                    </b-tr>
+                                </b-tbody>
+                            </template>
+                            </b-table>
+                    </div>
+                </div>
 
-        <div class="col-12 col-md-8">
+                <div class="col-12 col-md-8">
 
-            <div class="form-group">
-                <label for="fechaConsulta">Fecha</label>
-                <input  v-model="fechaConsulta" type="date" name="fechaConsulta" id="fechaConsulta" class="form-control" placeholder="Ingrese fecha" aria-describedby="helpId">
-                <small id="bodyhelpId" class="text-muted"></small>
-                <span class="text-danger" v-if="errors.fecha_consulta">{{ errors.detalle }}</span>
-            </div>
-            <div class="form-group" v-if="fechaConsulta" @click="diaDeLaSemana(turno.fecha_consulta)">
-                <h4>Consultas del dia {{ diaDeConsulta + ' ' + fechaConsulta }}</h4>
-            </div>
+                    <div class="form-group">
+                        <label for="fechaConsulta">Fecha</label>
+                        <input v-model="fechaConsulta" type="date" name="fechaConsulta" id="fechaConsulta" class="form-control" placeholder="Ingrese fecha" aria-describedby="helpId">
+                        <small id="bodyhelpId" class="text-muted"></small>
+                        <span class="text-danger" v-if="errors.fecha_consulta">{{ errors.detalle }}</span>
+                    </div>
+                    <div class="form-group" v-if="fechaConsulta" @click="diaDeLaSemana(turno.fecha_consulta)">
+                        <h4>Consultas del dia {{ diaDeConsulta + ' ' + fechaConsulta }}</h4>
+                    </div>
 
-            <div :key="mykey">
-                <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
-                    <b-thead head-variant="dark">
-                        <template>
-                            <b-tr>
-                                <b-th>Nro</b-th>
-                                <b-th>Hora</b-th>
-                                <b-th>Paciente</b-th>
-                                <b-th>Dar/Cancelar</b-th>
-                            </b-tr>
-                            <div id="app">
-                        </template>
-                        
-                    </b-thead>
-                    <b-tbody table-variant="warning">
-                        <b-tr v-for="(turno,i) in horarioAtencion" :key="i">
-                            <b-td scope="row">{{turno.nroOrden}}</b-td>
-                            <b-td>{{turno.horaInicio}}</b-td>
-                            <b-td>{{turno.paciente}}</b-td>
-                            <b-td>
-                                <button v-if="turno.estado" @click="showModal=true" v-on:click="armarTurno(turno.nroOrden,turno.horaInicio)" type="button" class="btn btn-success">Dar turno</button>
-                                <button v-if="!turno.estado" v-on:click="deleteTurno(turno.id)" type="button" class="btn btn-danger">Cancelar Turno</button>
-                            </b-td>
-                        </b-tr>
-                    </b-tbody>
-                    </b-table>
+                    <div :key="mykey">
+                        <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
+                            <b-thead head-variant="dark">
+                                <template>
+                                    <b-tr>
+                                        <b-th>Nro</b-th>
+                                        <b-th>Hora</b-th>
+                                        <b-th>Paciente</b-th>
+                                        <b-th>Dar/Cancelar</b-th>
+                                    </b-tr>
+                                    <div id="app">
+                                </template>
 
-            </div>
-        </div>
+                            </b-thead>
+                            <b-tbody table-variant="warning">
+                                <b-tr v-for="(turno,i) in horarioAtencion" :key="i">
+                                    <b-td scope="row">{{turno.nroOrden}}</b-td>
+                                    <b-td>{{turno.horaInicio}}</b-td>
+                                    <b-td>{{turno.paciente}}</b-td>
+                                    <b-td>
+                                        <button v-if="turno.estado" @click="showModal=true" v-on:click="armarTurno(turno.nroOrden,turno.horaInicio)" type="button" class="btn btn-success">Dar turno</button>
+                                        <button v-if="!turno.estado" v-on:click="deleteTurno(turno.id)" type="button" class="btn btn-danger">Cancelar Turno</button>
+                                    </b-td>
+                                </b-tr>
+                            </b-tbody>
+                            </b-table>
+
+                    </div>
+                </div>
         </template>
-        </p>
+    </p>
 </b-container>
 
 <script>
-
     var today = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     console.log("fecha de hoy");
     console.log(today);
 
     var app = new Vue({
-        components:{
+        components: {
             'v-select': VueSelect.VueSelect,
         },
 
@@ -204,7 +197,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 borderer: true,
                 tableVariant: 'primary',
                 options: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange'],
-                dias: ['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO']
+                dias: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']
             }
         },
         mounted() {
@@ -217,7 +210,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 this.getHorariosatencion();
 
             },
-            fechaConsulta: function(){
+            fechaConsulta: function() {
                 this.getHorarioCompleto();
             }
 
@@ -242,35 +235,35 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 return this.diasAtencion;
             },
 
-            selectDia : function(){
-                for(let selDia of this.diasAtencion){
+            selectDia: function() {
+                for (let selDia of this.diasAtencion) {
                     if (this.diaDeConsulta == selDia.dia) {
                         this.diaAtencion.dia = selDia.dia;
                         this.diaAtencion.deste = selDia.deste;
                         this.diaAtencion.hasta = selDia.hasta;
                         return this.diaAtencion;
-                    }else {
+                    } else {
                         this.diaAtencion = {};
                     }
 
                 };
             },
 
-            getArrayTurnos(){
+            getArrayTurnos() {
                 this.horarioAtencion = [];
                 this.diaDeLaSemana();
                 this.arrayDeHorarioAtencion();
                 this.selectDia();
-                const intervalo= this.medico.duracion_consulta;
-                let desde = moment(this.diaAtencion.deste,'HH:mm:ss');
-                let hasta = moment(this.diaAtencion.hasta,'HH:mm:ss');
-                hasta.subtract(intervalo,'m');
+                const intervalo = this.medico.duracion_consulta;
+                let desde = moment(this.diaAtencion.deste, 'HH:mm:ss');
+                let hasta = moment(this.diaAtencion.hasta, 'HH:mm:ss');
+                hasta.subtract(intervalo, 'm');
                 let nroOrd = 0;
                 let estado = true;
 
-                while (desde.isBefore(hasta)){
+                while (desde.isBefore(hasta)) {
                     nroOrd += 1;
-                    if (nroOrd == 1){
+                    if (nroOrd == 1) {
                         this.horarioAtencion.push({
                             nroOrden: nroOrd,
                             horaInicio: desde.format('HH:mm:ss'),
@@ -287,29 +280,29 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
 
                 };
 
-                
+
             },
 
-            getHorarioCompleto: function (){
+            getHorarioCompleto: function() {
                 this.getArrayTurnos();
-                for (let selectMedico of this.turnos){
-                    if (this.medico.id_medico == selectMedico.medico.id_medico && this.fechaConsulta == selectMedico.fecha_consulta){
-                        for(let i = 0; i < this.horarioAtencion.length ; i++){
-                            if (selectMedico.hora_consulta == this.horarioAtencion[i].horaInicio){
+                for (let selectMedico of this.turnos) {
+                    if (this.medico.id_medico == selectMedico.medico.id_medico && this.fechaConsulta == selectMedico.fecha_consulta) {
+                        for (let i = 0; i < this.horarioAtencion.length; i++) {
+                            if (selectMedico.hora_consulta == this.horarioAtencion[i].horaInicio) {
 
                                 this.horarioAtencion[i].estado = false;
                                 this.horarioAtencion[i].id = selectMedico.id_turno;
                                 this.horarioAtencion[i].paciente = selectMedico.paciente.apellido + ' ' + selectMedico.paciente.nombre;
                                 // this.horarioAtencion[i].pacienteNo = selectMedico.paciente.nombre;
-                            } 
-                            
+                            }
+
                         };
                     };
                 };
                 this.mykey++;
             },
 
-            
+
 
             normalizeErrors: function(errors) {
                 var allErrors = {};
@@ -319,7 +312,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 return allErrors;
             },
 
-            armarTurno: function (nro,inicio){
+            armarTurno: function(nro, inicio) {
                 this.turno.nro_orden = parseInt(nro);
                 this.turno.fecha_registro = today
                 this.turno.fecha_consulta = this.fechaConsulta;
@@ -337,7 +330,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
             getMedicos: function() {
                 var self = this;
                 const params = this.filterxMedico;
-                axios.get('/apiv1/medico?page=' + self.currentPage,params)
+                axios.get('/apiv1/medico?page=' + self.currentPage, params)
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -356,9 +349,11 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
             getMedico: function(key) {
                 var self = this;
                 const params = {
-                    expand:['especialidad','horarioatencions'].toString()
+                    expand: ['especialidad', 'horarioatencions'].toString()
                 }
-                axios.get('/apiv1/medico/' + self.medico.id_medico,{params})
+                axios.get('/apiv1/medico/' + self.medico.id_medico, {
+                        params
+                    })
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -385,8 +380,8 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
             getPacientes: function() {
                 var self = this;
                 axios.get('/apiv1/paciente', {
-                    params: self.filterxPaciente
-                })
+                        params: self.filterxPaciente
+                    })
                     .then(function(response) {
                         // handle success
                         console.log(response.data);
@@ -395,10 +390,10 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                         self.pacientes.sort((a, b) => {
                             let apellidoA = a.apellido.toUpperCase();
                             let apellidoB = b.apellido.toUpperCase();
-                            if (apellidoA < apellidoB){
+                            if (apellidoA < apellidoB) {
                                 return -1;
                             }
-                            if (apellidoA > apellidoB){
+                            if (apellidoA > apellidoB) {
                                 return 1;
                             }
                             return 0;
@@ -570,12 +565,12 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                         console.log(response.data);
                         self.getTurnos();
                         self.turno = {};
-                        self.paciente = {} ;
-                        self.medico = {} ;
+                        self.paciente = {};
+                        self.medico = {};
                         self.fechaConsulta = null;
                         self.isNewRecord = true;
                         self.showModal = false;
-                        
+
                     })
                     .catch(function(error) {
                         // handle error
@@ -589,5 +584,4 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
         }
 
     })
-
 </script>
