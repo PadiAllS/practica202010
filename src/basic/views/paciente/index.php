@@ -220,14 +220,22 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         </div>
                     </div>
                     </form>
+
                     <template v-slot:modal-footer="{ok, cancel, hide}">
+
+                        <button v-if="isNewRecord" @cl>
+                            <button v-if="isNewRecord" @click="addPacientes()" type="button" class="btn btn-primary m-3">Nuevo Paciente</button>
+                            <button v-if="!isNewRecord" @click="updatePacientes(paciente.id_paciente)" type="button" class="btn btn-primary m-3">Actualizar</button>
+
+                    </template>
+                    <!-- <template v-slot:modal-footer="{ok, cancel, hide}">
                         <b-row class="justify-content-center">
                             <div>
                                 <b-button v-if="isNewRecord" @click="addPacientes()" variant="warning" size="lg">Crear Nuevo Paciente</b-button>
                                 <b-button v-if="!isNewRecord" @click=updatePacientes(paciente.id_paciente) variant="warning" size="lg">Actualizar</b-button>
                             </div>
                         </b-row>
-                    </template>
+                    </template> -->
                 </b-modal>
                 <!-- Termina el modal -->
                 <p>
@@ -262,8 +270,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                             <b-td>
                                                 <b-container>
                                                     <b-row class="justify-content-md-center">
-                                                        <b-row class="justify-content-md-center">
-                                                            <button @click="showModal=true" type='button' class="btn btn-success">Nuevo Paciente</button>
+                                                        <b-row          class="justify-content-md-center">
+                                                         <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
                                                         </b-row>
                                                     </b-row>
                                                 </b-container>
@@ -279,7 +287,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                             <b-td>{{pac.celular}}</b-td>
                                             <b-td>{{pac.responsable_telefono}}</b-td>
                                             <b-td>
-                                                <button @click="showModal=true" v-on:click="editPacientes(key)" type="button" class="btn btn-primary">Editar</button>
+                                                <button @click="showModal=true" v-on:click="editPacientes(key)" type="button" class="btn btn-success">Editar</button>
                                                 <button v-on:click="deletePacientes(pac.id_paciente)" type="button" class="btn btn-danger">Borrar</button>
                                             </b-td>
                                         </b-tr>
@@ -338,6 +346,12 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             this.getPatologias();
         },
         watch: {
+            showModal(){
+                if(!this.showModal){
+                    this.paciente = {};
+                    this.errors = [];
+                }
+            },  
             currentPage: function() {
                 this.getPacientes();
             }

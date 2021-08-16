@@ -29,7 +29,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
     <div class="form-group">
         <label for="medico">Elija un medico</label>
-        <select class="form-control" v-model=medico.id_medico @change="getMedico" v-on:crange="getMedicoHorarioAtencion()" v-model=filterxhorario.medico_id>
+        <select class="form-control" v-model=medico.id_medico @change="getMedico">
             <option v-for="medic in medicos" :value="medic.id_medico">
                 {{medic.apellido}}
             </option>
@@ -71,7 +71,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
     <!-- Termina el modal  -->
     <p>
         <template>
-            <div :key="mykey">
+            <!-- <div :key="mykey"> -->
                 <b-table-simple stacked='md' class="table bordered" bordered :head-variant="headVariant" :table-variant="tableVariant">
                     <b-thead head-variant="dark">
                         <template>
@@ -88,8 +88,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
                         </template>
                     </b-thead>
-                    <b-tbody table-variant="warning" v-if='medico.id_medico != medicoHorario.medico_id'>
-                        <b-tr v-for="hora in medico.horarioatencions" :key="medico.horarioatencions.id_horarioAtencion">
+                    <b-tbody table-variant="warning" v-if='medico.id_medico'>
+                        <b-tr v-for="hora in horariosDelMedico" :key="horariosDelMedico.id_horarioAtencion">
                         <!-- <b-tr v-for="hora in filtroHorariosxMedico"> -->
                             <b-td scope="row">{{hora.id_horarioAtencion}}</b-td>
                             <b-td>{{hora.dia}}</b-td>
@@ -128,6 +128,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                 filter: {}, // filtra los horariosatencion
                 filterxhorario: [], //filtrar hoarios por medicos
                 filtroHorarioxMedico: [],
+                horariosDelMedico: [],
                 errors: {},
                 isNewRecord: true,
                 currentPage: 1,
@@ -154,18 +155,13 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
         watch: {
             currentPage: function() {
                 // this.getHorariosatencion();
-                
-            }
-
+            
+            },
         },
 
         computed: {
-            filtroHorariosxMedico() {
-                // if (this.medico.id_medico != null) 
-                return this.medicoHoraioAtencion.filter(mHAtencion => {
-                    return this.mHAtencion.medico_id != this.medico.id_medico;
-                })
-            }
+            
+            
         },
         methods: {
             normalizeErrors: function(errors) {
@@ -215,6 +211,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         console.log(response.data);
                         console.log("Se trajo al medico");
                         self.medico = response.data;
+                        self.horariosDelMedico = response.data.horarioatencions.slice();
                         //self.mykey += 1;
                     })
                     .catch(function(error) {
@@ -226,9 +223,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                         // always executed
                     });
             },
-
-            //operaciones tabla MedicoHorarioAtencion
-
+            
             getMedicoHorarioAtencion: function() {
                 var self = this;
                 axios.get('/apiv1/medicohorarioatencion?page=' + self.currentPage, {
@@ -274,6 +269,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                     .then(function() {
                         // always executed
                     });
+                    this.getMedico();
 
             },
 

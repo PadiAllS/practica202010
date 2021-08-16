@@ -91,7 +91,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                     <b-container>
                                         <b-row class="justify-content-md-center">
                                             <b-row class="justify-content-md-center">
-                                                <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo horario</button>
+                                                <button @click="nuevoReg()" type='button' class="btn btn-primary">Nuevo horario</button>
                                             </b-row>
                                         </b-row>
                                     </b-container>
@@ -153,11 +153,21 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             this.getHorarioatencion();
         },
         watch: {
+            showModal(){
+                if(!this.showModal){
+                    this.horarioAtencion = {};
+                    this.errors = [];
+                }
+            },
             currentPage: function() {
                 this.getHorarioatencion();
             }
         },
         methods: {
+            nuevoReg: function(){
+                this.showModal = true;
+                this.isNewRecord = true;
+            },
             normalizeErrors: function(errors) {
                 var allErrors = {};
                 for (var i = 0; i < errors.length; i++) {
