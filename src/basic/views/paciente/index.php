@@ -270,7 +270,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                                 <b-container>
                                                     <b-row class="justify-content-md-center">
                                                         <b-row class="justify-content-md-center">
-                                                            <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
+                                                            <button @click="nuevoReg()" type='button' class="btn btn-primary">Nuevo Paciente</button>
                                                         </b-row>
                                                     </b-row>
                                                 </b-container>
@@ -369,6 +369,10 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             }
         },
         methods: {
+            nuevoReg() {
+                this.showModal = true;
+                this.isNewRecord = true;
+            },
             normalizeErrors: function(errors) {
                 var allErrors = {};
                 for (var i = 0; i < errors.length; i++) {

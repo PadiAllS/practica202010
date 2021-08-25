@@ -13,7 +13,7 @@ class Paciente extends \app\models\Paciente
 
     public function fields()
     {
-        return ['id_paciente', 'patologias', 'direccion', 'fecha_nacimiento', 'sexo', 'nro_documento', 'tipo_documento', 'ape_nomb_materno', 'ape_nomb_paterno', 'responsable_nombre', 'responsable_telefono', 'nombre', 'apellido', 'obrasocial_id', 'celular', 'mail', 'telefono', 'localidad', 'codigo_postal',];
+        return ['id_paciente', 'patologias', 'direccion', 'fecha_nacimiento', 'sexo', 'nro_documento', 'tipo_documento', 'ape_nomb_materno', 'ape_nomb_paterno', 'responsable_nombre', 'responsable_telefono', 'nombre', 'apellido', 'obrasocial_id', 'celular', 'mail', 'telefono', 'localidad', 'codigo_postal', 'obrasocial'];
     }
 
     public function getObrasocial()
