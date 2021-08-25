@@ -223,9 +223,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
 
                     <template v-slot:modal-footer="{ok, cancel, hide}">
 
-                        <button v-if="isNewRecord" @cl>
-                            <button v-if="isNewRecord" @click="addPacientes()" type="button" class="btn btn-primary m-3">Nuevo Paciente</button>
-                            <button v-if="!isNewRecord" @click="updatePacientes(paciente.id_paciente)" type="button" class="btn btn-primary m-3">Actualizar</button>
+                        <button v-if="isNewRecord" @click="addPacientes()" type="button" class="btn btn-primary m-3">Nuevo Paciente</button>
+                        <button v-if="!isNewRecord" @click="updatePacientes(paciente.id_paciente)" type="button" class="btn btn-primary m-3">Actualizar</button>
 
                     </template>
                     <!-- <template v-slot:modal-footer="{ok, cancel, hide}">
@@ -270,8 +269,8 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
                                             <b-td>
                                                 <b-container>
                                                     <b-row class="justify-content-md-center">
-                                                        <b-row          class="justify-content-md-center">
-                                                         <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
+                                                        <b-row class="justify-content-md-center">
+                                                            <button @click="showModal=true" type='button' class="btn btn-primary">Nuevo Paciente</button>
                                                         </b-row>
                                                     </b-row>
                                                 </b-container>
@@ -346,12 +345,12 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/sweetalert2@9", ['position' 
             this.getPatologias();
         },
         watch: {
-            showModal(){
-                if(!this.showModal){
+            showModal() {
+                if (!this.showModal) {
                     this.paciente = {};
                     this.errors = [];
                 }
-            },  
+            },
             currentPage: function() {
                 this.getPacientes();
             }
