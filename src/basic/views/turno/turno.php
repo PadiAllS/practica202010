@@ -57,7 +57,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                         <b-th>Nro</b-th>
                         <b-th>Hora</b-th>
                         <b-th>Paciente</b-th>
-                        <b-th>Dar/Cancelar</b-th>
+                        <b-th>Datos del paciente</b-th>
                     </b-tr>
                     <div id="app">
                 </template>
@@ -69,7 +69,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                     <b-td>{{turno.horaInicio}}</b-td>
                     <b-td>{{turno.paciente}}</b-td>
                     <b-td>
-                        <button @click="showModal=true" v-on:click="getPaciente(turno.paciente_id)" type="button" class="btn btn-success">Ver Ficha</button>
+                        <button @click="showModal=true" v-on:click="editTurnoPaciente(i)" type="button" class="btn btn-success">Ver Ficha</button>
                         
                     </b-td>
                 </b-tr>
@@ -181,11 +181,16 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                                             <div class="col-6 col-md-4">
                                                 <div class="form-group">
                                                     <label for="obrasocial">Selecciona la Obra-Social</label>
-                                                    <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
+                                                    <select class="form-control" v-model="paciente.obrasocial_id">
+                                                    <option v-for="obrasoc in obrasocial" :value="paciente.obrasocial_id">
+                                                        {{obrasoc.nombre}}
+                                                    </option>
+                                                </select>
+                                                    <!-- <select id="selectObraSocial" class="form-control" v-model="paciente.obrasocial_id">
                                                         <option :value="pac.id" v-for="pac in obrasocial">
                                                             {{pac.nombre}}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <small id="bodyhelpId" class="text-muted"></small>
                                                 </div>
                                             </div>
@@ -311,10 +316,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
     console.log(today);
 
     var app = new Vue({
-        components: {
-            'v-select': VueSelect.VueSelect,
-        },
-
+        
         el: "#app",
         data: function() {
             return {
@@ -334,8 +336,13 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 medico: {}, //el medico seleccionado
                 turno: {}, //nuevo turno
                 turnos: [], //todos los turnos
+                turnoPaciente: {},
                 //horarioxMedico: {}, //lista los datos de un medico (especialidad y horariosatencion)
                 diaDeConsulta: null,
+                docs: ['DNI', 'CARNET EXTRANJERO', 'RUC', 'PASAPORTE', 'P.NAC', 'OTROS'],
+                sexos: ['FEMENINO', 'MASCULINO', 'OTROS'],
+                obrasocial: [],
+                patologias: [],
                 filterxMedico: {}, //filtra los medicos
                 filterxPaciente: {},
                 filter: {}, // filtra los horariosatencion
@@ -355,7 +362,6 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 headVariant: 'dark',
                 borderer: true,
                 tableVariant: 'primary',
-                options: ['Apple', 'Banana', 'Grape', 'Kiwi', 'Orange'],
                 dias: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']
             }
         },
@@ -363,8 +369,15 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
             this.getPacientes();
             this.getMedicos();
             this.getTurnos();
+            this.getPatologias();
         },
         watch: {
+            showModal(){
+                if(!this.showModal){
+                    this.paciente = {};
+                    this.errors = [];
+                }
+            },  
             currentPage: function() {
                 this.getHorariosatencion();
 
@@ -452,7 +465,7 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                                 this.horarioAtencion[i].estado = false;
                                 this.horarioAtencion[i].id = selectMedico.id_turno;
                                 this.horarioAtencion[i].paciente = selectMedico.paciente.apellido + ' ' + selectMedico.paciente.nombre;
-                                // this.horarioAtencion[i].pacienteNo = selectMedico.paciente.nombre;
+                                this.horarioAtencion[i].pacienteNro = selectMedico.paciente.id_paciente;
                             }
 
                         };
@@ -613,28 +626,6 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                     });
             },
 
-            // getTurnos: function() {
-            //     var self = this;
-            //     axios.get('/apiv1/turno?page=' + self.currentPage, {
-            //         params: self.filterxTurno
-            //     })
-            //         .then(function(response) {
-            //             // handle success
-            //             console.log(response.data);
-            //             console.log("Se obtuvo todos los turnos");
-            //             self.turnos = response.data;
-            //         })
-            //         .catch(function(error) {
-            //             // handle error
-            //             self.errors = self.normalizeErrors(error.response.data);
-            //             console.log(self.errors);
-            //         })
-            //         .then(function() {
-            //             // always executed
-            //         });
-            // },
-
-
             deleteTurno: function(id) {
                 Swal.fire({
                     title: 'Esta seguro que desea borrar el registro ' + id + '?',
@@ -677,6 +668,18 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                 this.turno = Object.assign({}, this.turno[key]);
                 this.turno.key = key;
                 this.isNewRecord = false;
+            },
+
+            editTurnoPaciente: function(key) {
+                this.isNewRecord = false;
+                this.turnoPaciente = Object.assign({}, this.horarioAtencion[key]);
+                this.turnoPaciente.key = key;
+                for (let selectPaciente of this.pacientes) {
+                    if (this.turnoPaciente.pacienteNro == selectPaciente.id_paciente) {
+                        this.paciente = Object.assign({}, selectPaciente);
+                        return this.paciente;
+                    };
+                };
             },
 
             addTurno: function() {
@@ -738,7 +741,196 @@ $this->registerJsFile("https://unpkg.com/vue-select@latest", ['position' => $thi
                     .then(function() {
                         // always executed
                     });
-            }
+            },
+
+            // operaciones con tabla pacientes
+
+            getPacientes: function() {
+                var self = this;
+                axios.get('/apiv1/paciente?page=' + self.currentPage, {
+                        params: self.filter
+                    })
+                    .then(function(response) {
+                        // handle success
+                        console.log(response.data);
+                        console.log("Se obtuvo todos los pacientes");
+                        self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
+                        self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
+                        self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
+                        self.pacientes = response.data;
+                    })
+                    .catch(function(error) {
+                        // handle error
+                        self.errors = self.normalizeErrors(error.response.data);
+                        console.log(self.errors);
+                    })
+                    .then(function() {
+                        // always executed
+                    });
+            },
+            deletePacientes: function(id) {
+                Swal.fire({
+                    title: 'Esta seguro que desea borrar el registro ' + id + '?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    showConfirmButton: true,
+                    confirmButtonText: 'Si borrar!',
+                    cancelButtonText: 'No, regresar.',
+                }).then((result) => {
+                    if (result.value) {
+                        var self = this;
+                        axios.delete('/apiv1/paciente/' + id)
+                            .then(function(response) {
+                                // handle success
+                                console.log("borra paciente id: " + id);
+                                console.log(response.data);
+                                self.getPacientes();
+                            })
+                            .catch(function(error) {
+                                // handle error
+                                console.log(error);
+                            })
+                            .then(function() {
+                                // always executed
+                            });
+                        Swal.fire({
+                            title: 'Se ha borrado con exito',
+                            icon: 'success',
+                        })
+                    }
+                }, );
+            },
+            editPacientes: function(key) {
+                this.paciente = Object.assign({}, this.pacientes[key]);
+                this.paciente.key = key;
+                this.isNewRecord = false;
+            },
+            addPacientes: function() {
+                var self = this;
+                axios.post('/apiv1/paciente', self.paciente)
+                    .then(function(response) {
+                        // handle success
+                        console.log(response.data);
+                        self.getPacientes()
+                        // self.posts.unshift(response.data);
+                        self.paciente = {};
+                        self.showModal = false;
+                        Swal.fire({
+                            title: 'Se creo el registro correctamente',
+                            icon: 'success',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Aceptar',
+                        })
+                    })
+                    .catch(function(error) {
+                        // handle error
+                        self.errors = self.normalizeErrors(error.response.data);
+                        console.log(self.errors);
+                    })
+                    .then(function() {
+                        // always executed
+                    });
+
+            },
+            getPatElegidas() {
+                var selected = [];
+                for (var i in this.patologias) {
+                    if (this.patologias[i].estado) {
+                        selected.push(this.patologias[i]);
+                    }
+                }
+                return selected;
+            },
+            updatePacientes: function(key) {
+                var self = this;
+                var patElegidas = self.getPatElegidas();
+                const params = new URLSearchParams();
+                params.append('nombre', self.paciente.nombre);
+                params.append('apellido', self.paciente.apellido);
+                params.append('localidad', self.paciente.localidad);
+                params.append('direccion', self.paciente.direccion);
+                params.append('codigo_postal', self.paciente.codigo_postal);
+                params.append('telefono', self.paciente.telefono);
+                params.append('celular', self.paciente.celular);
+                params.append('sexo', self.paciente.sexo);
+                params.append('tipo_documento', self.paciente.tipo_documento);
+                params.append('nro_documento', self.paciente.nro_documento);
+                params.append('ape_nomb_materno', self.paciente.ape_nomb_materno);
+                params.append('ape_nomb_paterno', self.paciente.ape_nomb_paterno);
+                params.append('obrasocial_id', self.paciente.obrasocial_id);
+                params.append('fecha_nacimiento', self.paciente.fecha_nacimiento);
+                params.append('responsable_nombre', self.paciente.responsable_nombre);
+                params.append('responsable_telefono', self.paciente.responsable_telef);
+                axios.patch('/apiv1/paciente/' + key, params)
+                params.append("patElegidas", patElegidas);
+                self.paciente.patElegidas = self.getPatElegidas();
+                axios.patch('/apiv1/paciente/' + key, self.paciente)
+                    .then(function(response) {
+                        // handle success
+                        console.log(response.data);
+                        self.getPacientes();
+                        self.paciente = {};
+                        self.isNewRecord = true;
+                        self.showModal = false;
+                    })
+                    .catch(function(error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .then(function() {
+                        // always executed
+                    });
+            },
+
+            getPatologias() {
+                var self = this;
+                axios.get('/apiv1/patologia')
+                    .then(function(response) {
+                        console.log(response.data);
+                        console.log("Se trajo las patologias");
+                        self.patologias = response.data;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+                    .then(function() {});
+            },
+
+            getObrasociales: function() {
+                var self = this;
+                axios.get('/apiv1/obrasocial?page=' + self.currentPage, {
+                        params: self.filter
+                    })
+                    .then(function(response) {
+                        // handle success
+                        console.log(response.data);
+                        console.log("Se obtuvo todas las obras sociales");
+                        self.pagination.total = parseInt(response.headers['x-pagination-total-count']);
+                        self.pagination.totalPages = parseInt(response.headers['x-pagination-page=count']);
+                        self.pagination.perPage = parseInt(response.headers['x-pagination-per-page']);
+                        self.obrasocial = response.data;
+                        self.obrasocial.sort((a, b) => {
+                            let obraA = a.nombre.toUpperCase();
+                            let obraB = b.nombre.toUpperCase();
+                            if (obraA < obraB) {
+                                return -1;
+                            }
+                            if (obraA > obraB) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+
+                    })
+                    .catch(function(error) {
+                        // handle error
+                        self.errors = self.normalizeErrors(error.response.data);
+                        console.log(self.errors);
+                    })
+                    .then(function() {
+                        // always executed
+                    });
+            },
 
         }
 
